@@ -43,8 +43,8 @@
       <div class="text-center">
       <v-btn class="ma-2" tile outlined color="white" @click="$router.push({name: 'test0317'}).catch(err=>{})">
         <v-icon left>mdi-pencil</v-icon>연습</v-btn>
-      <v-btn class="ma-2" tile outlined color="white" @click="$router.push({name: 'test'}).catch(err=>{})">
-        <v-icon left>mdi-pencil</v-icon>test</v-btn>
+      <v-btn class="ma-2" tile outlined color="white" @click="$router.push({name: 'login'}).catch(err=>{})">
+        <v-icon left>mdi-pencil</v-icon>login</v-btn>
       </div>
 
     </v-app-bar>

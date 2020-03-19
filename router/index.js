@@ -12,6 +12,8 @@ const test0317 = () =>
     import ('../views/test0317.vue')
 const Users = () =>
     import ('../views/Users.vue')
+const Login = () =>
+    import ('../views/Login.vue')
     // const UsersTest = () =>
     //     import ('../views/Userstest.vue')
 
@@ -45,6 +47,11 @@ const routes = [{
             //     name: "userstest",
             //     component: UsersTest
             // }]
+    },
+    {
+        path: '/Login',
+        name: 'login',
+        component: Login
     },
     {
         path: '*',
