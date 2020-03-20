@@ -42,9 +42,31 @@
       <v-toolbar-title>mathq.kr</v-toolbar-title>
        <v-spacer></v-spacer>
       <div class="text-center">
-      <v-btn class="ma-2" tile outlined color="white"  v-if="isLogin" router :to ="{name: 'Home'}" exact>
-        <v-icon left>mdi-pencil</v-icon>loginout</v-btn>
-      <v-btn class="ma-2" tile outlined color="white" v-else router :to ="{name: 'login'}" exact>
+      <v-menu offset-y v-if="isLogin" >
+      <template v-slot:activator="{ on }">
+        <v-btn
+          color=""
+          dark
+          flak
+          icon
+          v-on="on"
+        >
+          <v-icon>mdi-library-plus</v-icon>
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item router :to ="{name: 'relogin'}" exact>
+          <v-list-item-title>마이페이지</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="logout">
+          <v-list-item-title>Log out</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
+      <!-- <v-btn class="ma-2" tile outlined color="white"  v-if="isLogin" router :to ="{name: 'Home'}" exact>
+        <v-icon left>mdi-pencil</v-icon>loginout</v-btn> -->
+     <v-btn class="ma-2" tile outlined color="white" v-else router :to ="{name: 'login'}" exact>
         <v-icon left>mdi-pencil</v-icon>login</v-btn>
       </div>
 
@@ -65,7 +87,7 @@
 
 <script>
 import vfooter from '@/components/footer'
-import { mapState} from "vuex"
+import { mapState, mapActions} from "vuex"
 
 export default {
   name: 'App',
@@ -91,6 +113,9 @@ export default {
     }),
     computed: {
       ...mapState(['isLogin'])
+    },
+    methods: {
+      ...mapActions(['logout'])
     },
 
   };

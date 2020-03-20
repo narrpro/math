@@ -49,6 +49,11 @@ export default new Vuex.Store({
             state.isLogin = false
             state.isLoginError = true
         },
+        logout(state) {
+            state.isLogin = false
+            state.isLoginError = false
+            state.userInfo = null
+        }
     },
     actions: {
         addUsers: ({ commit }, payload) => {
@@ -69,6 +74,10 @@ export default new Vuex.Store({
                     //삼항연산자 두번 적용
             }
 
+        },
+        logout({ commit }) {
+            commit("logout")
+            router.push({ name: "Home" })
         }
 
     },
