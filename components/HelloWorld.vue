@@ -22,11 +22,13 @@
             outlined
             dense
             type="number"
+            color="grey darken-2"
           ></v-text-field>
 
       <v-text-field
         v-model="inName"
         label="본인 이름을 입력하세요."
+        color="grey darken-2"
       ></v-text-field>
 
       <v-btn class="ma-2" tile outlined color="black"

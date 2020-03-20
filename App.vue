@@ -41,9 +41,9 @@
       <v-toolbar-title>mathq.kr</v-toolbar-title>
        <v-spacer></v-spacer>
       <div class="text-center">
-      <v-btn class="ma-2" tile outlined color="white" @click="$router.push({name: 'test0317'}).catch(err=>{})">
-        <v-icon left>mdi-pencil</v-icon>연습</v-btn>
-      <v-btn class="ma-2" tile outlined color="white" @click="$router.push({name: 'login'}).catch(err=>{})">
+      <v-btn class="ma-2" tile outlined color="white"  v-if="isLogin" router :to ="{name: 'Home'}">
+        <v-icon left>mdi-pencil</v-icon>loginout</v-btn>
+      <v-btn class="ma-2" tile outlined color="white" v-else router :to ="{name: 'login'}">
         <v-icon left>mdi-pencil</v-icon>login</v-btn>
       </div>
 
@@ -64,6 +64,8 @@
 
 <script>
 import vfooter from '@/components/footer'
+import { mapState} from "vuex"
+
 export default {
   name: 'App',
   components:{
@@ -86,6 +88,9 @@ export default {
 
         ],
     }),
+    computed: {
+      ...mapState(['isLogin'])
+    },
 
   };
 
