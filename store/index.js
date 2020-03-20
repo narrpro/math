@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from '../router'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        userInfo: null,
         allUsers: [
             { userId: 'hoza123', name: 'narrpro', address: '공주' },
             { userId: 'max123', name: '탄천중', address: '탄천' },
@@ -37,9 +39,10 @@ export default new Vuex.Store({
         },
         //login store 연습
         //로그인 성공
-        loginSuccess(state) {
+        loginSuccess(state, payload) {
             state.isLogin = true
             state.isLoginError = false
+            state.userInfo = payload
         },
         //로그인 실패
         loginError(state) {
@@ -58,14 +61,16 @@ export default new Vuex.Store({
             state.testUsers.forEach(user => {
                 if (user.email === loginObj.email) selectUser = user
             })
-            selectUser === null ?
-                commit('loginError') :
-                selectUser.password !== loginObj.password ? commit('loginError') : commit('loginSuccess')
-                //삼항연산자 두번 적용
+            if (selectUser === null || selectUser.password !== loginObj.password)
+                commit('loginError')
+            else {
+                commit('loginSuccess', selectUser)
+                router.push({ name: "relogin" })
+                    //삼항연산자 두번 적용
+            }
+
         }
 
-    }
-
-    // },
-    // modules: {}
+    },
+    modules: {}
 })

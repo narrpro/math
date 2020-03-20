@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue' // 전부 다불러와서. 뿌려줌
+import store from '../store'
 
 Vue.use(VueRouter)
 const About = () =>
@@ -14,8 +15,21 @@ const Users = () =>
     import ('../views/Users.vue')
 const Login = () =>
     import ('../views/Login.vue')
-    // const UsersTest = () =>
-    //     import ('../views/Userstest.vue')
+
+//가드 그냥 외워버려
+const rejectAuthUser = (to, from, next) => {
+        if (store.state.isLogin === true) {
+            //로그인 된사람
+            next('/')
+        } else { next() }
+    }
+    // 접속페이지에 로그인 안된사람 못들어와
+const onlytAuthUser = (to, from, next) => {
+    if (store.state.isLogin === false) {
+        //로그인 안된사람
+        next('/')
+    } else { next() }
+}
 
 const routes = [{
         path: '/',
@@ -51,7 +65,16 @@ const routes = [{
     {
         path: '/Login',
         name: 'login',
+        //가드
+        beforeEnter: rejectAuthUser,
         component: Login
+    },
+    {
+        path: '/relogin',
+        name: 'relogin',
+        beforeEnter: onlytAuthUser,
+        component: () =>
+            import ("../views/ReLogin.vue")
     },
     {
         path: '*',

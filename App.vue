@@ -14,6 +14,7 @@
           v-for="(item,i) in items"
           :key="i"
           :to="item.to"
+          exact
           >
           <v-list-item-icon>
             <v-icon v-text="item.icon"></v-icon>
@@ -41,9 +42,9 @@
       <v-toolbar-title>mathq.kr</v-toolbar-title>
        <v-spacer></v-spacer>
       <div class="text-center">
-      <v-btn class="ma-2" tile outlined color="white"  v-if="isLogin" router :to ="{name: 'Home'}">
+      <v-btn class="ma-2" tile outlined color="white"  v-if="isLogin" router :to ="{name: 'Home'}" exact>
         <v-icon left>mdi-pencil</v-icon>loginout</v-btn>
-      <v-btn class="ma-2" tile outlined color="white" v-else router :to ="{name: 'login'}">
+      <v-btn class="ma-2" tile outlined color="white" v-else router :to ="{name: 'login'}" exact>
         <v-icon left>mdi-pencil</v-icon>login</v-btn>
       </div>
 
@@ -79,8 +80,8 @@ export default {
         { icon: 'mdi-open-in-new', text: 'about ', to: {path: '/about'} },
         { icon: 'mdi-pencil', text: 'test ', to: {path: '/test'} },
         { icon: 'mdi-help-circle', text: 'users ', to: {path: '/users'} },
-        { icon: 'mdi-rss-box', text: '초기화면 ', to: {path: '/'} },
-        { icon: 'mdi-chart-line', text: '초기화면 ', to: {path: '/'} },
+        { icon: 'mdi-rss-box', text: '로그인', to: {path: '/login'} },
+        { icon: 'mdi-chart-line', text: 'My페이지 ', to: {path: '/relogin'} },
         { icon: 'mdi-owl', text: '초기화면 ', to: {path: '/'} },
         { icon: 'mdi-login', text: '초기화면 ', to: {path: '/'} },
         { icon: 'mdi-chart-bar', text: '초기화면 ', to: {path: '/'} },
