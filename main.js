@@ -15,6 +15,7 @@ new Vue({
     store,
     beforeCreate() {
         this.$store.dispatch("getMemberInfo")
+
     },
     vuetify,
     render: h => h(App)

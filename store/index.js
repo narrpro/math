@@ -16,6 +16,8 @@ export default new Vuex.Store({
         testUsers: [{ email: "narr", password: "1" }],
         isLogin: false,
         isLoginError: false,
+        token: null,
+        access_token: null
 
     },
     // computed  게산된 애칭을 만든다
@@ -54,6 +56,8 @@ export default new Vuex.Store({
             state.isLogin = false
             state.isLoginError = false
             state.userInfo = null
+            localStorage.clear()
+                // localStorage.removeItem("access_token")
         }
     },
     actions: {
@@ -70,37 +74,43 @@ export default new Vuex.Store({
                     localStorage.setItem("access_token", token)
                     dispatch("getMemberInfo")
                 })
-                .catch(() => {
-                    commit('loginError')
+                .catch((err) => {
+                    this.commit("loginError")
+                    console.log(err)
                 })
         },
         logout({ commit }) {
             commit("logout")
-            localStorage.removeItem("access_token")
             router.push({ name: "Home" }).catch(err => {})
         },
 
         getMemberInfo({ commit }) {
+
             let token = localStorage.getItem("access_token")
             let config = {
                 headers: {
                     "access-token": token
                 }
             }
-            axios
-                .get("https://reqres.in/api/users/2", config)
-                .then(response => {
-                    let userInfo = {
-                        id: response.data.data.id,
-                        first_name: response.data.data.first_name,
-                        last_name: response.data.data.last_name,
-                        avatar: response.data.data.avatar
-                    }
-                    commit("loginSuccess", userInfo)
-                })
+
+            if (token != null) {
+                axios
+                    .get("https://reqres.in/api/users/2", config)
+                    .then(response => {
+                        let userInfo = {
+                            id: response.data.data.id,
+                            first_name: response.data.data.first_name,
+                            last_name: response.data.data.last_name,
+                            avatar: response.data.data.avatar
+                        }
+                        commit("loginSuccess", userInfo)
+                    })
+
                 .catch(() => {
-                    commit('loginError')
+                    commit("loginError")
                 })
+            }
+
         },
     },
     modules: {}
