@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '../router'
+import axios from "axios"
 
 Vue.use(Vuex)
 
@@ -61,25 +62,46 @@ export default new Vuex.Store({
             commit('addUsers', payload)
         },
         //로그인 시도
-        login({ state, commit }, loginObj) {
-            let selectUser = null
-            state.testUsers.forEach(user => {
-                if (user.email === loginObj.email) selectUser = user
-            })
-            if (selectUser === null || selectUser.password !== loginObj.password)
-                commit('loginError')
-            else {
-                commit('loginSuccess', selectUser)
-                router.push({ name: "relogin" })
-                    //삼항연산자 두번 적용
-            }
-
+        login({ dispatch }, loginObj) {
+            axios
+                .post("https://reqres.in/api/login", loginObj)
+                .then(res => {
+                    let token = res.data.token
+                    localStorage.setItem("access_token", token)
+                    dispatch("getMemberInfo")
+                })
+                .catch(() => {
+                    commit('loginError')
+                })
         },
         logout({ commit }) {
             commit("logout")
-            router.push({ name: "Home" })
-        }
+            localStorage.removeItem("access_token")
+            router.push({ name: "Home" }).catch(err => {})
+        },
 
+        getMemberInfo({ commit }) {
+            let token = localStorage.getItem("access_token")
+            let config = {
+                headers: {
+                    "access-token": token
+                }
+            }
+            axios
+                .get("https://reqres.in/api/users/2", config)
+                .then(response => {
+                    let userInfo = {
+                        id: response.data.data.id,
+                        first_name: response.data.data.first_name,
+                        last_name: response.data.data.last_name,
+                        avatar: response.data.data.avatar
+                    }
+                    commit("loginSuccess", userInfo)
+                })
+                .catch(() => {
+                    commit('loginError')
+                })
+        },
     },
     modules: {}
 })

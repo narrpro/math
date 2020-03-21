@@ -1,5 +1,5 @@
 <template>
-  <h1> {{userInfo.email}} 로그인 된 사람 </h1>
+  <h1> {{userInfo.first_name}} 로그인 된 사람 </h1>
 </template>
 
 <script>

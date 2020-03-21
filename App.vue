@@ -54,12 +54,12 @@
           <v-icon>mdi-library-plus</v-icon>
         </v-btn>
       </template>
-      <v-list color="grey darken-3" dark>
+      <v-list color="grey darken-3" dark >
         <v-list-item router :to ="{name: 'relogin'}" exact>
           <v-list-item-title>마이페이지</v-list-item-title>
         </v-list-item>
         <v-list-item @click="logout">
-          <v-list-item-title>Log out</v-list-item-title>
+          <v-list-item-title>로그아웃</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
