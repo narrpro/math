@@ -77,6 +77,12 @@ const routes = [{
             import ("../views/ReLogin.vue")
     },
     {
+        path: '/Api-test',
+        name: 'Api-test',
+        component: () =>
+            import ('../views/Api-test.vue')
+    },
+    {
         path: '*',
         name: 'e404',
         component: () =>

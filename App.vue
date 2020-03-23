@@ -67,7 +67,7 @@
       <!-- <v-btn class="ma-2" tile outlined color="white"  v-if="isLogin" router :to ="{name: 'Home'}" exact>
         <v-icon left>mdi-pencil</v-icon>loginout</v-btn> -->
      <v-btn class="ma-2" tile outlined color="white" v-else router :to ="{name: 'login'}" exact>
-        <v-icon left>mdi-pencil</v-icon>login</v-btn>
+        <v-icon left>mdi-login</v-icon>로그인</v-btn>
       </div>
 
     </v-app-bar>
@@ -104,10 +104,10 @@ export default {
         { icon: 'mdi-help-circle', text: 'users ', to: {path: '/users'} },
         { icon: 'mdi-rss-box', text: '로그인', to: {path: '/login'} },
         { icon: 'mdi-chart-line', text: 'My페이지 ', to: {path: '/relogin'} },
-        { icon: 'mdi-owl', text: '초기화면 ', to: {path: '/'} },
-        { icon: 'mdi-login', text: '초기화면 ', to: {path: '/'} },
-        { icon: 'mdi-chart-bar', text: '초기화면 ', to: {path: '/'} },
-        { icon: 'mdi-filmstrip', text: '초기화면 ', to: {path: '/'} },
+        { icon: 'mdi-owl', text: '연습카드 ', to: {path: '/test0317'} },
+        { icon: 'mdi-login', text: 'API연습' , to: {path: '/Api-test'} },
+        { icon: 'mdi-chart-bar', text: '통계보기', to: {path: '/'} },
+        { icon: 'mdi-filmstrip', text: '자료보기', to: {path: '/'} },
 
         ],
     }),
