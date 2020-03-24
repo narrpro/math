@@ -83,6 +83,12 @@ const routes = [{
             import ('../views/test/Api-test.vue')
     },
     {
+        path: '/CardDB',
+        name: 'carddb',
+        component: () =>
+            import ('../views/test/CardDB.vue')
+    },
+    {
         path: '*',
         name: 'e404',
         component: () =>

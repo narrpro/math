@@ -106,7 +106,7 @@ export default {
         { icon: 'mdi-chart-line', text: 'My페이지 ', to: {path: '/relogin'} },
         { icon: 'mdi-owl', text: '연습카드 ', to: {path: '/test0317'} },
         { icon: 'mdi-login', text: 'API연습' , to: {path: '/Api-test'} },
-        { icon: 'mdi-chart-bar', text: '통계보기', to: {path: '/'} },
+        { icon: 'mdi-chart-bar', text: 'firebase DB', to: {path: '/CardDB'} },
         { icon: 'mdi-filmstrip', text: '자료보기', to: {path: '/'} },
 
         ],

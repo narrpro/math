@@ -11,7 +11,7 @@
     </v-alert>
       <v-card>
         <v-toolbar flat height="40" color="green" dark>
-          <v-toolbar-title>eve.holt@reqres.in...cityslicka 연습해보세요</v-toolbar-title>
+          <v-toolbar-title>id:eve.holt@reqres.in & pw:cityslicka </v-toolbar-title>
         </v-toolbar>
           <div class="pa-5">
           <v-text-field
