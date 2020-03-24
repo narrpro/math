@@ -5,16 +5,16 @@ import store from '../store'
 
 Vue.use(VueRouter)
 const About = () =>
-    import ('../views/About.vue')
+    import ('../views/test/About.vue')
     // about만 불러와서 뿌림
 const Test = () =>
-    import ('../views/Test.vue')
+    import ('../views/test/Test.vue')
 const test0317 = () =>
-    import ('../views/test0317.vue')
+    import ('../views/test/test0317.vue')
 const Users = () =>
-    import ('../views/Users.vue')
+    import ('../views/test/Users.vue')
 const Login = () =>
-    import ('../views/Login.vue')
+    import ('../views/test/Login.vue')
 
 //가드 그냥 외워버려
 const rejectAuthUser = (to, from, next) => {
@@ -74,19 +74,19 @@ const routes = [{
         name: 'relogin',
         beforeEnter: onlytAuthUser,
         component: () =>
-            import ("../views/ReLogin.vue")
+            import ("../views/test/ReLogin.vue")
     },
     {
         path: '/Api-test',
         name: 'Api-test',
         component: () =>
-            import ('../views/Api-test.vue')
+            import ('../views/test/Api-test.vue')
     },
     {
         path: '*',
         name: 'e404',
         component: () =>
-            import ('../views/e404.vue')
+            import ('../views/test/e404.vue')
     }
 ]
 
