@@ -64,10 +64,10 @@
       </v-list>
     </v-menu>
 
-      <!-- <v-btn class="ma-2" tile outlined color="white"  v-if="isLogin" router :to ="{name: 'Home'}" exact>
-        <v-icon left>mdi-pencil</v-icon>loginout</v-btn> -->
-     <v-btn class="ma-2" tile outlined color="white" v-else router :to ="{name: 'login'}" exact>
-        <v-icon left>mdi-login</v-icon>로그인</v-btn>
+     <v-btn class="ma-2" tile outlined color="white" v-else  @click="signInWithGoogle" exact>
+        <v-icon left color="black">mdi-gmail</v-icon>구글 로그인</v-btn>
+     <!-- <v-btn class="ma-2" tile outlined color="white" v-else router :to ="{name: 'login'}" exact>
+        <v-icon left color="black">mdi-gmail</v-icon>구글 로그인</v-btn> -->
       </div>
 
     </v-app-bar>
@@ -107,7 +107,7 @@ export default {
         { icon: 'mdi-owl', text: '연습카드 ', to: {path: '/test0317'} },
         { icon: 'mdi-login', text: 'API연습' , to: {path: '/Api-test'} },
         { icon: 'mdi-chart-bar', text: 'firebase DB', to: {path: '/CardDB'} },
-        { icon: 'mdi-filmstrip', text: '자료보기', to: {path: '/'} },
+        { icon: 'mdi-filmstrip', text: '(⑉⊙ȏ⊙)', to: {path: '/'} },
 
         ],
     }),
@@ -115,7 +115,13 @@ export default {
       ...mapState(['isLogin'])
     },
     methods: {
-      ...mapActions(['logout'])
+      ...mapActions(['logout']),
+      async signInWithGoogle(){
+      const provider = new this.$firebase.auth.GoogleAuthProvider()
+      this.$firebase.auth().languageCode = 'ko'
+      const r = await this.$firebase.auth().signInWithPopup(provider)
+      console.log(r)
+      }
     },
 
   };

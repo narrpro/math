@@ -89,6 +89,18 @@ const routes = [{
             import ('../views/test/CardDB.vue')
     },
     {
+        path: '/Sign',
+        name: 'sign',
+        component: () =>
+            import ('../views/Sign.vue')
+    },
+    {
+        path: '/Axios',
+        name: 'axios',
+        component: () =>
+            import ('../views/test/Axios.vue')
+    },
+    {
         path: '*',
         name: 'e404',
         component: () =>

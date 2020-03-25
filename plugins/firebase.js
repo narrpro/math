@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import * as firebase from "firebase/app"
 // import "firebase/analytics"
-// import "firebase/auth"
+import "firebase/auth"
 import firebaseConfig from '../../firebaseConfig'
 import "firebase/firestore"
 
