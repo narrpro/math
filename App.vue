@@ -120,7 +120,6 @@ export default {
       const provider = new this.$firebase.auth.GoogleAuthProvider()
       this.$firebase.auth().languageCode = 'ko'
       const r = await this.$firebase.auth().signInWithPopup(provider)
-      console.log(r)
       }
     },
 

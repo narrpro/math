@@ -85,6 +85,11 @@ export default {
 
   },
   methods: {
+
+    async postReq(){
+      const r = await this.$axios.post('test')
+      this.postMd = JSON.stringify(r.data)
+    },
     getReq(){
       axios.get('http://localhost:5000/mathq-bfb87/us-central1/test/').then((r)=>{
       this.getMd = JSON.stringify(r.data)
@@ -92,15 +97,6 @@ export default {
     .catch((e)=>{
       console.error(e.message)
 
-    })
-    },
-    postReq(){
-      axios.post('http://localhost:5000/mathq-bfb87/us-central1/test/1818').then((r)=>{
-      this.postMd = JSON.stringify(r.data)
-    })
-    .catch((e)=>{
-         this.$toasted.global.error('잘못 Click하셨습니다.')
-      console.error(e.message)
     })
     },
     putReq(){

@@ -17,8 +17,10 @@ export default new Vuex.Store({
         isLogin: false,
         isLoginError: false,
         token: null,
-        access_token: null
-
+        access_token: null,
+        //0326
+        user: null,
+        token: ''
     },
     // computed  게산된 애칭을 만든다
     getters: {
@@ -58,9 +60,25 @@ export default new Vuex.Store({
             state.userInfo = null
             localStorage.clear()
                 // localStorage.removeItem("access_token")
+        },
+        //0326
+        setUser(state, user) {
+            state.user = user
+        },
+        //0326
+        setToken(state, token) {
+            state.token = token
         }
     },
     actions: {
+        getUser({ commit }, user) {
+            commit('setUser', user)
+            if (!user) return
+            user.getIdToken()
+                .then(token => {
+                    commit('setToken', token)
+                })
+        },
         addUsers: ({ commit }, payload) => {
             // context,payload
             commit('addUsers', payload)

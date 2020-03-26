@@ -101,6 +101,12 @@ const routes = [{
             import ('../views/test/Axios.vue')
     },
     {
+        path: '/Mother',
+        name: 'mother',
+        component: () =>
+            import ('../views/test/Mother.vue')
+    },
+    {
         path: '*',
         name: 'e404',
         component: () =>
