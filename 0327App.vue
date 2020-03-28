@@ -42,7 +42,7 @@
       <v-toolbar-title>mathq.kr</v-toolbar-title>
        <v-spacer></v-spacer>
       <div class="text-center">
-      <v-menu offset-y v-if="inLogin" >
+      <v-menu offset-y v-if="isLogin" >
       <template v-slot:activator="{ on }">
         <v-btn
           color=""
@@ -58,7 +58,7 @@
         <v-list-item router :to ="{name: 'relogin'}" exact>
           <v-list-item-title>마이페이지</v-list-item-title>
         </v-list-item>
-        <v-list-item @click="signOut">
+        <v-list-item @click="logout">
           <v-list-item-title>로그아웃</v-list-item-title>
         </v-list-item>
       </v-list>
@@ -71,20 +71,23 @@
       </div>
 
     </v-app-bar>
-     <!-- cmp  -->
+
+
+
+  <!-- cmp  -->
    <v-content>
       <router-view></router-view>
     </v-content>
   <!-- foot -->
       <vfooter/>
 </v-app>
+
+
 </template>
 
 <script>
-
 import vfooter from '@/components/footer'
-import store from './store'
-import { mapState} from "vuex"
+import { mapState, mapActions} from "vuex"
 
 export default {
   name: 'App',
@@ -109,17 +112,17 @@ export default {
         ],
     }),
     computed: {
-      ...mapState(['inLogin'])
+      ...mapState(['isLogin'])
     },
     methods: {
-      // ...mapActions(['logout']),
-
-      signOut(){
-        this.$firebase.auth().signOut()
-      this.$store.commit('errAction')
-      }
+      ...mapActions(['logout']),
+    //      async signOut(){
+    //       await this.$firebase.auth().signOut()
+    //       localStorage.clear()
+    //       $store.state.isLogin = true
+    // }
     },
 
-  }
+  };
 
 </script>

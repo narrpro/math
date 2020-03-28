@@ -16,6 +16,20 @@ const Users = () =>
 const Login = () =>
     import ('../views/test/Login.vue')
 
+//가드 그냥 외워버려
+const rejectAuthUser = (to, from, next) => {
+        if (store.state.isLogin === true) {
+            //로그인 된사람
+            next('/')
+        } else { next() }
+    }
+    // 접속페이지에 로그인 안된사람 못들어와
+const onlytAuthUser = (to, from, next) => {
+    if (store.state.isLogin === false) {
+        //로그인 안된사람
+        next('/')
+    } else { next() }
+}
 
 const routes = [{
         path: '/',
@@ -105,5 +119,9 @@ const router = new VueRouter({
     base: process.env.BASE_URL,
     routes
 })
+
+router.beforeEach(to, from, next) => {
+    if (Vue.prototype.$isFirebaseAuth) next()
+}
 
 export default router

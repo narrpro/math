@@ -25,10 +25,7 @@
           <span class="pa-1">
 
           <v-btn color="green" depressed dark
-            @click="login({
-              email: email,
-              password: password
-            })"
+            @click="signInEmail"
           ><v-icon color="black">mdi-account-key</v-icon>
           로그인 </v-btn>
           </span>
@@ -74,7 +71,8 @@ export default {
       await this.$firebase.auth().signInWithPopup(provider)
     },
     async signInEmail(){
-      await this.$firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+      // await this.$firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+      await this.$firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
     },
     async signOut(){
       await this.$firebase.auth().signOut()
