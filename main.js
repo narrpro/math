@@ -4,10 +4,10 @@ import router from './router'
 import store from './store'
 import './error'
 import vuetify from './plugins/vuetify'
-import './plugins/vue-toasted'
-import firebase from './plugins/firebase'
+import './plugins'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
+
 
 Vue.config.productionTip = false
 

@@ -4,44 +4,36 @@ import Home from '../views/Home.vue' // 전부 다불러와서. 뿌려줌
 import store from '../store'
 
 Vue.use(VueRouter)
-const About = () =>
-    import ('../views/test/About.vue')
-    // about만 불러와서 뿌림
-const Test = () =>
-    import ('../views/test/Test.vue')
-const test0317 = () =>
-    import ('../views/test/test0317.vue')
-const Users = () =>
-    import ('../views/test/Users.vue')
-const Login = () =>
-    import ('../views/test/Login.vue')
-
 
 const routes = [{
         path: '/',
         name: 'Home',
-        component: Home
+        component: Home,
     },
     {
         path: '/about',
         name: 'About',
-        component: About
+        component: () =>
+            import ('../views/test/About.vue')
 
     },
     {
         path: '/test',
         name: 'test',
-        component: Test
+        component: () =>
+            import ('../views/test/Test.vue')
     },
     {
         path: '/test0317',
         name: 'test0317',
-        component: test0317
+        component: () =>
+            import ('../views/test/test0317.vue')
     },
     {
         path: '/Users',
         name: 'users',
-        component: Users
+        component: () =>
+            import ('../views/test/Users.vue')
             // children: [{
             //     path: ":id",
             //     name: "userstest",
@@ -52,15 +44,16 @@ const routes = [{
         path: '/Login',
         name: 'login',
         //가드
-        // beforeEnter: rejectAuthUser,
-        component: Login
+
+        component: () =>
+            import ('../views/test/Login.vue')
     },
     {
         path: '/relogin',
         name: 'relogin',
-        // beforeEnter: onlytAuthUser,
+
         component: () =>
-            import ("../views/test/ReLogin.vue")
+            import ('../views/test/ReLogin.vue')
     },
     {
         path: '/Api-test',
@@ -71,6 +64,9 @@ const routes = [{
     {
         path: '/CardDB',
         name: 'carddb',
+        beforeEnter: (to, from, next) => {
+            next()
+        },
         component: () =>
             import ('../views/test/CardDB.vue')
     },
@@ -89,6 +85,9 @@ const routes = [{
     {
         path: '/Mother',
         name: 'mother',
+        beforeEnter: (to, from, next) => {
+            next()
+        },
         component: () =>
             import ('../views/test/Mother.vue')
     },
@@ -106,4 +105,14 @@ const router = new VueRouter({
     routes
 })
 
+//true 될때만 가드
+router.beforeEach((to, from, next) => {
+    Vue.prototype.$Progress.start()
+    if (Vue.prototype.$isFirebaseAuth) next()
+})
+
+router.afterEach((to, from) => {
+    Vue.prototype.$Progress.finish()
+
+})
 export default router

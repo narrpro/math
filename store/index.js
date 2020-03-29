@@ -16,7 +16,8 @@ export default new Vuex.Store({
         token: null,
         user: null,
         inLogin: false,
-        inError: false
+        inError: false,
+        seturl: null
     },
     // computed  게산된 애칭을 만든다
     getters: {
@@ -43,7 +44,8 @@ export default new Vuex.Store({
 
         //0326
         setUser(state, user) {
-            state.user = user
+            state.user = user,
+                state.seturl = user.photoURL
         },
         //0326
         setToken(state, token) {

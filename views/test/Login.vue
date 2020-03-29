@@ -2,7 +2,7 @@
 <v-container fill-height style="max-width:450px" grid-list-md text-center>
   <v-layout align-center row wrap >
     <v-flex xs12>
-      <v-alert type="error" color="grey darken-3"  :value="inLogin">
+      <v-alert type="error" color="grey darken-3"  :value="inError">
         구글 아이디와 패스워드를 확인해보세요.
     </v-alert>
       <v-alert type="error" color="grey darken-3" :value="inLogin" >

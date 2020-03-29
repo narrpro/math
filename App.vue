@@ -39,7 +39,16 @@
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>mathq.kr</v-toolbar-title>
+      <v-toolbar-title v-if="inLogin">
+<!-- {{$store.state.seturl}} -->
+<!-- {{$store.state.user.photoURL}} -->
+        <v-avatar>
+      <img
+        :src="seturl"
+      >
+        </v-avatar>
+      </v-toolbar-title>
+      <v-toolbar-title v-else>mathq.kr</v-toolbar-title>
        <v-spacer></v-spacer>
       <div class="text-center">
       <v-menu offset-y v-if="inLogin" >
@@ -73,6 +82,22 @@
     </v-app-bar>
      <!-- cmp  -->
    <v-content>
+      <vue-progress-bar></vue-progress-bar>
+      <v-container grid-list-md>
+        <v-layout row wrap align-center justify-center>
+          <v-card color="transparent" flat v-if="!$isFirebaseAuth">
+            <v-card-text class="text-xs-center">
+              <v-progress-circular
+                :size="70"
+                :width="7"
+                color="green"
+                indeterminate
+              ></v-progress-circular>
+            </v-card-text>
+            <v-card-text class="text-xs-center">구글clound 처리중입니다..</v-card-text>
+          </v-card>
+        </v-layout>
+      </v-container>
       <router-view></router-view>
     </v-content>
   <!-- foot -->
@@ -104,19 +129,22 @@ export default {
         { icon: 'mdi-owl', text: '연습카드 ', to: {path: '/test0317'} },
         { icon: 'mdi-login', text: 'API연습' , to: {path: '/Api-test'} },
         { icon: 'mdi-chart-bar', text: 'firebase DB', to: {path: '/CardDB'} },
-        { icon: 'mdi-filmstrip', text: '(⑉⊙ȏ⊙)', to: {path: '/'} },
+        { icon: 'mdi-filmstrip', text: 'loading 연습', to: {path: '/Mother'} },
 
         ],
+
     }),
     computed: {
-      ...mapState(['inLogin'])
+      ...mapState(['inLogin','seturl'])
     },
     methods: {
-      // ...mapActions(['logout']),
+      // ...mapActions(['getUser']),
 
       signOut(){
-        this.$firebase.auth().signOut()
+      this.$firebase.auth().signOut()
       this.$store.commit('errAction')
+      this.$Progress.start()
+      this.$Progress.increase(30)
       }
     },
 

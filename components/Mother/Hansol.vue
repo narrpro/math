@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <h1>
-한솔
+  <v-card color="red">
+    회원가입
 
-    </h1>
-  </div>
+  </v-card>
 </template>
