@@ -15,8 +15,15 @@
                 :value="value"
 
               >{{ value }}%</v-progress-circular>
-            </v-card-text>
-            <v-card-text>구글clound 처리중입니다..</v-card-text>
+
+              }</v-card-text>
+                    <v-card-text>
+               <v-avatar :size="80">
+      <img
+        :src="$store.state.claims.picture"
+      >
+        </v-avatar>
+              구글clound 처리중입니다..</v-card-text>
           </v-card>
           </v-flex>
         </v-layout>
@@ -30,6 +37,7 @@ export default {
       return {
         interval: {},
         value: 0,
+
       }
     },
     beforeDestroy () {

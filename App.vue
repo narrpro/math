@@ -41,12 +41,12 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="$store.state.user" />
       <v-toolbar-title v-if="inLogin">
-        {{$store.state.user.displayName}}
-        <!-- <v-avatar>
+        <v-avatar :size="30">
       <img
-        :src="seturl"
+        :src="$store.state.claims.picture"
       >
-        </v-avatar> -->
+        </v-avatar>
+             {{$store.state.user.displayName}}님
       </v-toolbar-title>
       <v-toolbar-title v-else>mathq.kr</v-toolbar-title>
        <v-spacer></v-spacer>
@@ -84,7 +84,7 @@
      <!-- cmp  -->
    <v-content>
       <vue-progress-bar></vue-progress-bar>
-      <v-container grid-list-md>
+      <!-- <v-container grid-list-md>
         <v-layout row wrap align-center justify-center>
           <v-card color="transparent" flat v-if="!$isFirebaseAuth">
             <v-card-text class="text-xs-center">
@@ -98,7 +98,7 @@
             <v-card-text class="text-xs-center">구글clound 처리중입니다..</v-card-text>
           </v-card>
         </v-layout>
-      </v-container>
+      </v-container> -->
       <router-view></router-view>
     </v-content>
   <!-- foot -->
@@ -136,7 +136,7 @@ export default {
 
     }),
     computed: {
-      ...mapState(['inLogin','seturl'])
+      ...mapState(['inLogin','inError'])
     },
     methods: {
       // ...mapActions(['getUser']),

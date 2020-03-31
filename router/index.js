@@ -5,6 +5,11 @@ import store from '../store'
 
 Vue.use(VueRouter)
 
+const levelCheck = (to, from, next) => {
+    if (store.state.claims.level === undefined) next('/Mother')
+    next()
+}
+
 const routes = [{
         path: '/',
         name: 'Home',
@@ -43,8 +48,7 @@ const routes = [{
     {
         path: '/Login',
         name: 'login',
-        //가드
-
+        // beforeEnter: levelCheck,
         component: () =>
             import ('../views/test/Login.vue')
     },
@@ -64,9 +68,7 @@ const routes = [{
     {
         path: '/CardDB',
         name: 'carddb',
-        beforeEnter: (to, from, next) => {
-            next()
-        },
+
         component: () =>
             import ('../views/test/CardDB.vue')
     },
@@ -85,9 +87,6 @@ const routes = [{
     {
         path: '/Mother',
         name: 'mother',
-        beforeEnter: (to, from, next) => {
-            next()
-        },
         component: () =>
             import ('../views/test/Mother.vue')
     },
@@ -108,7 +107,7 @@ const router = new VueRouter({
 //true 될때만 가드
 router.beforeEach((to, from, next) => {
     Vue.prototype.$Progress.start()
-    if (Vue.prototype.$isFirebaseAuth) next()
+    if (store.state.firebaseLoaded) next()
 })
 
 router.afterEach((to, from) => {

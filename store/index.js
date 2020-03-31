@@ -18,7 +18,8 @@ export default new Vuex.Store({
         inLogin: false,
         inError: false,
         seturl: null,
-        claims: null
+        claims: null,
+        firebaseLoaded: false
     },
     // computed  게산된 애칭을 만든다
     getters: {
@@ -64,25 +65,27 @@ export default new Vuex.Store({
         },
         errAction(state) {
             state.inLogin = false,
-                state.inError = false
+                state.inError = true
         },
+        setfirebaseLoaded(state) {
+            state.firebaseLoaded = true
+        }
     },
 
     actions: {
-        getUser({ commit }, user) {
+        async getUser({ commit }, user) {
+            commit('setfirebaseLoaded')
             commit('setUser', user)
-            if (!user) return
-            return user.getIdToken()
-                .then(token => {
-                    commit('setToken', token)
-                    commit('setAction')
-                    return user.getIdTokenResult()
-                })
-                .then(r => {
-                    commit('setClaims', r.claims)
-                })
+            if (!user) return false
+            const token = await user.getIdToken()
+            commit('setToken', token)
+            commit('setAction')
+            const { claims } = await user.getIdTokenResult()
+            commit('setClaims', claims)
 
         },
+
+
         addUsers: ({ commit }, payload) => {
             // context,payload
             commit('addUsers', payload)
