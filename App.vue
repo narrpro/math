@@ -4,6 +4,7 @@
  <v-navigation-drawer
       v-model="drawer"
       app
+      v-if="$store.state.user"
     >
     <!-- toggle menu -->
       <v-list dense>
@@ -38,15 +39,14 @@
       color="green"
       dark
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="$store.state.user" />
       <v-toolbar-title v-if="inLogin">
-<!-- {{$store.state.seturl}} -->
-<!-- {{$store.state.user.photoURL}} -->
-        <v-avatar>
+        {{$store.state.user.displayName}}
+        <!-- <v-avatar>
       <img
         :src="seturl"
       >
-        </v-avatar>
+        </v-avatar> -->
       </v-toolbar-title>
       <v-toolbar-title v-else>mathq.kr</v-toolbar-title>
        <v-spacer></v-spacer>
@@ -63,20 +63,21 @@
           <v-icon>mdi-library-plus</v-icon>
         </v-btn>
       </template>
-      <v-list color="grey darken-3" dark >
+      <v-list color="grey darken-3" dark max-width="500">
         <v-list-item router :to ="{name: 'relogin'}" exact>
-          <v-list-item-title>마이페이지</v-list-item-title>
+          <v-list-item-title>{{$store.state.user.displayName}}님 page</v-list-item-title>
         </v-list-item>
+         <v-divider></v-divider>
         <v-list-item @click="signOut">
           <v-list-item-title>로그아웃</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
-
-     <v-btn class="ma-2" tile outlined color="white" v-else  @click="$router.push({name: 'login'}).catch(err=>{})" exact>
-        <v-icon left color="black">mdi-gmail</v-icon>로그인</v-btn>
-     <!-- <v-btn class="ma-2" tile outlined color="white" v-else router :to ="{name: 'login'}" exact>
-        <v-icon left color="black">mdi-gmail</v-icon>구글 로그인</v-btn> -->
+    <div class="my-2">
+      <v-btn color="green darken-3" fab x-small dark v-if="!$store.state.user"  @click="$router.push({name: 'login'}).catch(err=>{})" exact>
+        🔑
+      </v-btn>
+       </div>
       </div>
 
     </v-app-bar>

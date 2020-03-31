@@ -13,11 +13,12 @@ export default new Vuex.Store({
             { userId: 'lego123', name: '학습연구년', address: '내포시' },
         ],
 
-        token: null,
+        token: '',
         user: null,
         inLogin: false,
         inError: false,
-        seturl: null
+        seturl: null,
+        claims: null
     },
     // computed  게산된 애칭을 만든다
     getters: {
@@ -44,16 +45,22 @@ export default new Vuex.Store({
 
         //0326
         setUser(state, user) {
-            state.user = user,
-                state.seturl = user.photoURL
+            state.user = user
+                // state.seturl = user.photoURL
         },
         //0326
         setToken(state, token) {
             state.token = token
         },
+        setUrl(state, p) {
+            state.seturl = p
+        },
         setAction(state) {
             state.inLogin = true,
                 state.inError = false
+        },
+        setClaims(state, claims) {
+            state.claims = claims
         },
         errAction(state) {
             state.inLogin = false,
@@ -65,10 +72,14 @@ export default new Vuex.Store({
         getUser({ commit }, user) {
             commit('setUser', user)
             if (!user) return
-            user.getIdToken()
+            return user.getIdToken()
                 .then(token => {
                     commit('setToken', token)
                     commit('setAction')
+                    return user.getIdTokenResult()
+                })
+                .then(r => {
+                    commit('setClaims', r.claims)
                 })
 
         },
