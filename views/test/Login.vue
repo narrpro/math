@@ -30,7 +30,7 @@
           </div>
       </v-card>
     </v-flex>
-          <!-- <v-flex xs12>
+          <v-flex xs12>
           <v-card color="transparent" flat v-if="!$store.state.firebaseLoaded">
             <v-card-text>
               <v-progress-circular
@@ -43,7 +43,12 @@
             </v-card-text>
             <v-card-text >구글clound 처리중입니다..</v-card-text>
           </v-card>
-            </v-flex> -->
+
+          <v-chip class="ma-2" color="green" text-color="white" v-if="$store.state.user" @click="levelUp">
+          <v-avatar left class="green darken-4"> 🌹 </v-avatar>
+          교사권한 레벨업 하기..꼭 ! 한번만 눌러주세요.
+             </v-chip>
+            </v-flex>
         </v-layout>
       </v-container>
       </div>
@@ -80,6 +85,17 @@ export default {
       const provider = new this.$firebase.auth.GoogleAuthProvider()
       this.$firebase.auth().languageCode = 'ko'
       await this.$firebase.auth().signInWithPopup(provider)
+      const user = this.$firebase.auth().currentUser
+      await user.getIdToken()
+      await this.$store.dispatch('getUser',user)
+      if(this.$store.state.claims.level === undefined) return this.$router.push('/Mother')
+      // this.$router.push('/')
+
+      },
+      async levelUp(){
+        const user = this.$firebase.auth().currentUser
+        await user.getIdToken()
+        await this.$store.dispatch('getUser',user)
       },
 // 로그아웃
       async signOut(){

@@ -25,6 +25,7 @@
           </v-list-item-content>
         </v-list-item>
           <v-divider color="green"></v-divider>
+          <!-- <v-divider color="green" v-show="i === 5"></v-divider> -->
         </v-list-item-group>
 
       </v-list>
@@ -40,10 +41,10 @@
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="$store.state.user" />
-      <v-toolbar-title v-if="inLogin">
+      <v-toolbar-title v-if="$store.state.user">
         <v-avatar :size="30">
       <img
-        :src="$store.state.claims.picture"
+        :src="$store.state.user.photoURL"
       >
         </v-avatar>
              {{$store.state.user.displayName}}님
@@ -68,7 +69,7 @@
           <v-list-item-title>{{$store.state.user.displayName}}님 page</v-list-item-title>
         </v-list-item>
          <v-divider></v-divider>
-        <v-list-item @click="signOut">
+        <v-list-item @click="signOut" router :to ="{name: 'Home'}" exact>
           <v-list-item-title>로그아웃</v-list-item-title>
         </v-list-item>
       </v-list>
@@ -127,10 +128,12 @@ export default {
         { icon: 'mdi-help-circle', text: 'users ', to: {path: '/users'} },
         { icon: 'mdi-rss-box', text: '로그인', to: {path: '/login'} },
         { icon: 'mdi-chart-line', text: 'My페이지 ', to: {path: '/relogin'} },
+        { icon: 'mdi-swap-vertical', text: '-------------------------------------', },
         { icon: 'mdi-owl', text: '연습카드 ', to: {path: '/test0317'} },
         { icon: 'mdi-login', text: 'API연습' , to: {path: '/Api-test'} },
         { icon: 'mdi-chart-bar', text: 'firebase DB', to: {path: '/CardDB'} },
         { icon: 'mdi-filmstrip', text: 'loading 연습', to: {path: '/Mother'} },
+        { icon: 'mdi-cast-connected', text: 'API2 연습', to: {path: '/chart'} },
 
         ],
 

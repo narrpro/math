@@ -5,11 +5,19 @@ import store from '../store'
 
 Vue.use(VueRouter)
 
-const levelCheck = (to, from, next) => {
-    if (store.state.claims.level === undefined) next('/Mother')
+// const levelCheck = (to, from, next) => {
+//     if (store.state.claims.level === undefined) next('/Mother')
+//     next()
+// }
+const adminCheck = (to, from, next) => {
+    if (!store.state.user) {
+        if (to.path !== '/login') return next('/login')
+    } else {
+        if (!store.state.user.emailVerified) return next('/Mother')
+        if (store.state.claims.level > 0) throw Error('관리자용입니다')
+    }
     next()
 }
-
 const routes = [{
         path: '/',
         name: 'Home',
@@ -39,16 +47,15 @@ const routes = [{
         name: 'users',
         component: () =>
             import ('../views/test/Users.vue')
-            // children: [{
-            //     path: ":id",
-            //     name: "userstest",
-            //     component: UsersTest
-            // }]
+
     },
     {
         path: '/Login',
         name: 'login',
-        // beforeEnter: levelCheck,
+        beforeEnter: (to, from, next) => {
+            if (store.state.user) return next('/')
+            next()
+        },
         component: () =>
             import ('../views/test/Login.vue')
     },
@@ -68,7 +75,7 @@ const routes = [{
     {
         path: '/CardDB',
         name: 'carddb',
-
+        beforeEnter: adminCheck,
         component: () =>
             import ('../views/test/CardDB.vue')
     },
@@ -91,6 +98,30 @@ const routes = [{
             import ('../views/test/Mother.vue')
     },
     {
+        path: '/admin/users',
+        name: 'userlist',
+        component: () =>
+            import ('../views/admin/users.vue')
+    },
+    {
+        path: '/chart',
+        name: 'chart',
+        component: () =>
+            import ('../views/chart/TestChart.vue')
+            // children: [{
+            //     path: ":id",
+            //     name: "show",
+            //     component: () =>
+            //         import ('../components/Movie/showpage.vue'),
+            // }]
+    },
+    {
+        path: '/show',
+        name: 'show',
+        component: () =>
+            import ('../components/Movie/showpage.vue')
+    },
+    {
         path: '*',
         name: 'e404',
         component: () =>
@@ -104,14 +135,35 @@ const router = new VueRouter({
     routes
 })
 
-//true 될때만 가드
+const waitFirebase = () => {
+        return new Promise((resolve, reject) => {
+            let cnt = 0
+            const tmr = setInterval(() => {
+                if (store.state.firebaseLoaded) {
+                    clearInterval(tmr)
+                    resolve()
+                } else if (cnt++ > 200) {
+                    clearInterval(tmr)
+                    reject(Error('loading 실패'))
+                }
+            }, 10)
+        })
+    }
+    //true 될때만 가드
 router.beforeEach((to, from, next) => {
     Vue.prototype.$Progress.start()
-    if (store.state.firebaseLoaded) next()
+        // if (store.state.firebaseLoaded) next()
+    waitFirebase()
+        .then(() => next())
+        .catch(e => Vue.prototype.$toasted.global.error(e.message))
 })
 
 router.afterEach((to, from) => {
     Vue.prototype.$Progress.finish()
+})
 
+router.onError(e => {
+    Vue.prototype.$Progress.finish()
+    Vue.prototype.$toasted.global.error(e.message)
 })
 export default router
