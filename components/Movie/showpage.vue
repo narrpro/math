@@ -47,6 +47,7 @@ import axios from 'axios'
 export default {
  created: function() {
    var id = this.$route.params.id
+
    axios.get(`http://localhost:3000/api/movies/${id}`)
    .then(res => { this.movie = res.data[0]; })
     },

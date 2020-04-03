@@ -48,6 +48,7 @@
           <v-avatar left class="green darken-4"> 🌹 </v-avatar>
           교사권한 레벨업 하기..꼭 ! 한번만 눌러주세요.
              </v-chip>
+
             </v-flex>
         </v-layout>
       </v-container>
@@ -88,8 +89,8 @@ export default {
       const user = this.$firebase.auth().currentUser
       await user.getIdToken()
       await this.$store.dispatch('getUser',user)
-      if(this.$store.state.claims.level === undefined) return this.$router.push('/Mother')
-      // this.$router.push('/')
+      if(this.$store.state.claims.level === undefined) return this.$router.push('/userprofile')
+      this.$router.push('/')
 
       },
       async levelUp(){

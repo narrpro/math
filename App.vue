@@ -65,7 +65,7 @@
         </v-btn>
       </template>
       <v-list color="grey darken-3" dark max-width="500">
-        <v-list-item router :to ="{name: 'relogin'}" exact>
+        <v-list-item router :to ="{name: 'userprofile'}" exact>
           <v-list-item-title>{{$store.state.user.displayName}}님 page</v-list-item-title>
         </v-list-item>
          <v-divider></v-divider>
@@ -85,22 +85,7 @@
      <!-- cmp  -->
    <v-content>
       <vue-progress-bar></vue-progress-bar>
-      <!-- <v-container grid-list-md>
-        <v-layout row wrap align-center justify-center>
-          <v-card color="transparent" flat v-if="!$isFirebaseAuth">
-            <v-card-text class="text-xs-center">
-              <v-progress-circular
-                :size="70"
-                :width="7"
-                color="green"
-                indeterminate
-              ></v-progress-circular>
-            </v-card-text>
-            <v-card-text class="text-xs-center">구글clound 처리중입니다..</v-card-text>
-          </v-card>
-        </v-layout>
-      </v-container> -->
-      <router-view></router-view>
+           <router-view></router-view>
     </v-content>
   <!-- foot -->
       <vfooter/>
@@ -123,17 +108,21 @@ export default {
       item: 1,
       items: [
         { icon: 'mdi-home', text: 'home ', to: {path: '/'} },
-        { icon: 'mdi-open-in-new', text: 'about ', to: {path: '/about'} },
+        { icon: 'mdi-open-in-new', text: '나의 페이지 ', to: {path: '/userprofile'} },
         { icon: 'mdi-pencil', text: 'test ', to: {path: '/test'} },
         { icon: 'mdi-help-circle', text: 'users ', to: {path: '/users'} },
         { icon: 'mdi-rss-box', text: '로그인', to: {path: '/login'} },
-        { icon: 'mdi-chart-line', text: 'My페이지 ', to: {path: '/relogin'} },
+        { icon: 'mdi-chart-line', text: '사용자관리', to: {path: '/admin/users'} },
         { icon: 'mdi-swap-vertical', text: '-------------------------------------', },
         { icon: 'mdi-owl', text: '연습카드 ', to: {path: '/test0317'} },
         { icon: 'mdi-login', text: 'API연습' , to: {path: '/Api-test'} },
         { icon: 'mdi-chart-bar', text: 'firebase DB', to: {path: '/CardDB'} },
         { icon: 'mdi-filmstrip', text: 'loading 연습', to: {path: '/Mother'} },
         { icon: 'mdi-cast-connected', text: 'API2 연습', to: {path: '/chart'} },
+        { icon: 'mdi-cast-connected', text: 'Admin 연습', to: {path: '/Level0'} },
+        { icon: 'mdi-swap-vertical', text: '-------------------------------------', },
+        { icon: 'mdi-cast-connected', text: 'User 연습', to: {path: '/Level1'} },
+        { icon: 'mdi-cast-connected', text: 'Guest 연습', to: {path: '/Level2'} },
 
         ],
 
@@ -147,8 +136,9 @@ export default {
       signOut(){
       this.$firebase.auth().signOut()
       this.$store.commit('errAction')
-      this.$Progress.start()
-      this.$Progress.increase(30)
+      // this.$Progress.start()
+      // this.$Progress.increase(30)
+      this.$router.push('/')
       }
     },
 

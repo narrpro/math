@@ -6,15 +6,34 @@ import store from '../store'
 Vue.use(VueRouter)
 
 // const levelCheck = (to, from, next) => {
-//     if (store.state.claims.level === undefined) next('/Mother')
+//     if (!store.state.user) return next('/')
+//     if (!store.state.claims) return next('/userprofile')
 //     next()
 // }
 const adminCheck = (to, from, next) => {
     if (!store.state.user) {
-        if (to.path !== '/login') return next('/login')
+        if (to.path !== '/login') return next('/')
     } else {
-        if (!store.state.user.emailVerified) return next('/Mother')
-        if (store.state.claims.level > 0) throw Error('관리자용입니다')
+        if (!store.state.user.emailVerified) return next('/userprofile')
+        if (!store.state.claims.level === 0) throw Error('관리자용')
+    }
+    next()
+}
+const userCheck = (to, from, next) => {
+    if (!store.state.user) {
+        if (to.path !== '/login') return next('/')
+    } else {
+        if (!store.state.user.emailVerified) return next('/userprofile')
+        if (!store.state.claims.level > 1) throw Error('사용자용')
+    }
+    next()
+}
+const guestCheck = (to, from, next) => {
+    if (!store.state.user) {
+        if (to.path !== '/') return next('/')
+    } else {
+        if (!store.state.user.emailVerified) return next('/userprofile')
+        if (!store.state.claims.level > 2) throw Error('게스트용')
     }
     next()
 }
@@ -22,6 +41,7 @@ const routes = [{
         path: '/',
         name: 'Home',
         component: Home,
+        // beforeEnter: guestCheck,
     },
     {
         path: '/about',
@@ -104,6 +124,16 @@ const routes = [{
             import ('../views/admin/users.vue')
     },
     {
+        path: '/userprofile',
+        name: 'userprofile',
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) return next('/login')
+            next()
+        },
+        component: () =>
+            import ('../views/admin/userProfile.vue')
+    },
+    {
         path: '/chart',
         name: 'chart',
         component: () =>
@@ -120,6 +150,27 @@ const routes = [{
         name: 'show',
         component: () =>
             import ('../components/Movie/showpage.vue')
+    },
+    {
+        path: '/Level0',
+        name: 'Level0',
+        beforeEnter: adminCheck,
+        component: () =>
+            import ('../views/admin/Level0.vue')
+    },
+    {
+        path: '/Level1',
+        name: 'Level1',
+        beforeEnter: userCheck,
+        component: () =>
+            import ('../views/admin/Level1.vue')
+    },
+    {
+        path: '/Level2',
+        name: 'Level2',
+        beforeEnter: guestCheck,
+        component: () =>
+            import ('../views/admin/Level2.vue')
     },
     {
         path: '*',

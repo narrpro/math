@@ -6,9 +6,9 @@
     <v-card-text>
       <v-data-table
       :headers="headers"
-      :items="desserts"
+      :items="items"
       :options.sync="options"
-      :server-items-length="totalDesserts"
+      :server-items-length="totalCount"
       :loading="loading"
       class="elevation-1"
       >
@@ -16,7 +16,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-bint @click="list">user list</v-bint>
+      <v-btn @click="list">user list</v-btn>
       </v-card-actions>
 
   </v-card>
@@ -26,14 +26,31 @@
 export default {
   data(){
     return{
+      headers: [
+        {
+          text: '유저키',
+          value: 'uid',
+        },
+        { text: 'email', value: 'email' },
+        { text: '이름', value: 'displayName' },
+        { text: 'picture', value: 'photoURL' },
+
+      ],
+        items: [],
+      totalCount: 0,
+        loading: false,
+        options: {},
 
     }
   },
   methods: {
     async list(){
-      const r = await this.$axios.get('/admin/users')
+      const {data} = await this.$axios.get('/admin/users')
+      this.totalCount = data.totalCount
+      this.items = data.items
     }
   }
 
 }
 </script>
+
