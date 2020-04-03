@@ -4,7 +4,7 @@ const cors = require('cors')
 require('express-async-errors')
 
 app.use(cors())
-app.use(require('../middlewares/vuetifyToken'),
+app.use(require('../middlewares/verifyToken'),
     app.post('/', (req, res) => {
         res.send('post ok')
     }), app.get('/', (req, res) => {
