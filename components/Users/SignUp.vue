@@ -19,7 +19,8 @@
 
 <script>
 // import { EventBus } from '@/main.js'
-import { mapActions } from 'vuex'
+import {createNamespacedHelpers} from 'vuex'
+const {mapState,mapActions} = createNamespacedHelpers('beforelist')
 // import { mapMutations } from 'vuex'
 
   export default {

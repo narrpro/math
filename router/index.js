@@ -11,29 +11,29 @@ Vue.use(VueRouter)
 //     next()
 // }
 const adminCheck = (to, from, next) => {
-    if (!store.state.user) {
+    if (!store.state.beforelist.user) {
         if (to.path !== '/login') return next('/')
     } else {
-        if (!store.state.user.emailVerified) return next('/userprofile')
-        if (!store.state.claims.level === 0) throw Error('관리자용')
+        if (!store.state.beforelist.user.emailVerified) return next('/userprofile')
+        if (!store.state.beforelist.claims.level === 0) throw Error('관리자용')
     }
     next()
 }
 const userCheck = (to, from, next) => {
-    if (!store.state.user) {
+    if (!store.state.beforelist.user) {
         if (to.path !== '/login') return next('/')
     } else {
-        if (!store.state.user.emailVerified) return next('/userprofile')
-        if (!store.state.claims.level > 1) throw Error('사용자용')
+        if (!store.state.beforelist.user.emailVerified) return next('/userprofile')
+        if (!store.state.beforelist.claims.level > 1) throw Error('사용자용')
     }
     next()
 }
 const guestCheck = (to, from, next) => {
-    if (!store.state.user) {
+    if (!store.state.beforelist.user) {
         if (to.path !== '/') return next('/')
     } else {
-        if (!store.state.user.emailVerified) return next('/userprofile')
-        if (!store.state.claims.level > 2) throw Error('게스트용')
+        if (!store.state.beforelist.user.emailVerified) return next('/userprofile')
+        if (!store.state.beforelist.claims.level > 2) throw Error('게스트용')
     }
     next()
 }
@@ -41,11 +41,12 @@ const routes = [{
         path: '/',
         name: 'Home',
         component: Home,
-        // beforeEnter: guestCheck,
+        // beforeEnter: userCheck,
     },
     {
         path: '/about',
         name: 'About',
+        beforeEnter: userCheck,
         component: () =>
             import ('../views/test/About.vue')
 
@@ -53,18 +54,21 @@ const routes = [{
     {
         path: '/test',
         name: 'test',
+        beforeEnter: userCheck,
         component: () =>
             import ('../views/test/Test.vue')
     },
     {
         path: '/test0317',
         name: 'test0317',
+        beforeEnter: userCheck,
         component: () =>
             import ('../views/test/test0317.vue')
     },
     {
         path: '/Users',
         name: 'users',
+        beforeEnter: userCheck,
         component: () =>
             import ('../views/test/Users.vue')
 
@@ -73,7 +77,7 @@ const routes = [{
         path: '/Login',
         name: 'login',
         beforeEnter: (to, from, next) => {
-            if (store.state.user) return next('/')
+            if (store.state.beforelist.user) return next('/')
             next()
         },
         component: () =>
@@ -82,44 +86,49 @@ const routes = [{
     {
         path: '/relogin',
         name: 'relogin',
-
+        beforeEnter: userCheck,
         component: () =>
             import ('../views/test/ReLogin.vue')
     },
     {
         path: '/Api-test',
         name: 'Api-test',
+        beforeEnter: userCheck,
         component: () =>
             import ('../views/test/Api-test.vue')
     },
     {
         path: '/CardDB',
         name: 'carddb',
-        beforeEnter: adminCheck,
+        beforeEnter: userCheck,
         component: () =>
             import ('../views/test/CardDB.vue')
     },
     {
         path: '/Sign',
         name: 'sign',
+        beforeEnter: userCheck,
         component: () =>
             import ('../views/Sign.vue')
     },
     {
         path: '/Axios',
         name: 'axios',
+        beforeEnter: userCheck,
         component: () =>
             import ('../views/test/Axios.vue')
     },
     {
         path: '/Mother',
         name: 'mother',
+        beforeEnter: userCheck,
         component: () =>
             import ('../views/test/Mother.vue')
     },
     {
         path: '/admin/users',
         name: 'userlist',
+        beforeEnter: adminCheck,
         component: () =>
             import ('../views/admin/users.vue')
     },
@@ -127,7 +136,7 @@ const routes = [{
         path: '/userprofile',
         name: 'userprofile',
         beforeEnter: (to, from, next) => {
-            if (!store.state.user) return next('/login')
+            if (!store.state.beforelist.user) return next('/login')
             next()
         },
         component: () =>
@@ -136,18 +145,28 @@ const routes = [{
     {
         path: '/chart',
         name: 'chart',
+        beforeEnter: userCheck,
         component: () =>
             import ('../views/chart/TestChart.vue')
-            // children: [{
-            //     path: ":id",
-            //     name: "show",
-            //     component: () =>
-            //         import ('../components/Movie/showpage.vue'),
-            // }]
+    },
+    {
+        path: '/drag',
+        name: 'drag',
+        beforeEnter: userCheck,
+        component: () =>
+            import ('../views/chart/Drag.vue')
+    },
+    {
+        path: '/poll',
+        name: 'poll',
+        beforeEnter: userCheck,
+        component: () =>
+            import ('../views/chart/Poll.vue')
     },
     {
         path: '/show',
         name: 'show',
+        beforeEnter: userCheck,
         component: () =>
             import ('../components/Movie/showpage.vue')
     },
@@ -173,6 +192,30 @@ const routes = [{
             import ('../views/admin/Level2.vue')
     },
     {
+        path: '/news',
+        name: 'news',
+        component: () =>
+            import ('../views/VueStudy/NewsView.vue')
+    },
+    {
+        path: '/ask',
+        name: 'ask',
+        component: () =>
+            import ('../views/VueStudy/AskView.vue')
+    },
+    {
+        path: '/jobs',
+        name: 'jobs',
+        component: () =>
+            import ('../views/VueStudy/JobsView.vue')
+    },
+    {
+        path: '/userview/:id',
+        name: 'userview',
+        component: () =>
+            import ('../views/VueStudy/UserView.vue')
+    },
+    {
         path: '*',
         name: 'e404',
         component: () =>
@@ -190,7 +233,7 @@ const waitFirebase = () => {
         return new Promise((resolve, reject) => {
             let cnt = 0
             const tmr = setInterval(() => {
-                if (store.state.firebaseLoaded) {
+                if (store.state.beforelist.firebaseLoaded) {
                     clearInterval(tmr)
                     resolve()
                 } else if (cnt++ > 200) {

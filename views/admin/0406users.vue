@@ -3,7 +3,7 @@
   <v-card>
     <v-toolbar
     dark
-    color = "green"
+    color = "teal"
     >
     <v-toolbar-title>사용자</v-toolbar-title>
     <v-spacer></v-spacer>
@@ -26,53 +26,22 @@
     </v-autocomplete>
         </v-toolbar>
     <v-card-text>
-    <v-data-iterator
+      <v-data-table
+      :headers="headers"
       :items="items"
       :options.sync="options"
       :server-items-length="totalCount"
-      :item-per-page="4"
-      :loading="loading" >
-      <template v-slot:default="props">
-        <v-layout wrap>
-          <v-flex
-            v-for="item in props.items"
-            :key="item.email"
-            xs12
-            sm6
-            md4
-            lg3
-          >
-            <v-card>
-                <v-list-item three-line>
-                  <v-list-item-avatar size="100" tile>
-                    <v-img :src="item.photoURL | imgCheck"></v-img>
-
-                  </v-list-item-avatar>
-                  <v-list-item-content class="align-slef-start">
-                    <v-list-item-title class="headline mb-2" v-text="item.email">
-                    </v-list-item-title>
-
-                  <v-list-item-subtitle>Name:</v-list-item-subtitle>
-                  <v-list-item-subtitle class="align-end">{{ item.displayName | nameCheck }}</v-list-item-subtitle>
-                  <v-list-item-subtitle>
-                       <v-select
-                        class="ma-2"
-                        v-model="item.leve"
-                        :items="levels"
-                        label="등급"
-                        solo
-                        hide-details
-                        @change="levelChange(item)"
-                      ></v-select>
-                  </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </template>
-      </v-data-iterator>
+      :item-per-page="7"
+      :loading="loading"
+      must-sort
+      class="elevation-1"
+      >
+      </v-data-table>
     </v-card-text>
+    <!-- <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn @click="list">검 색</v-btn>
+      </v-card-actions> -->
   </v-card>
 </v-container>
 
@@ -103,13 +72,7 @@ export default {
       search: '',
       emails: [],
       email: null,
-      loadingSearch: false,
-      levels: [
-        { value:0, text: '관리자'},
-        { value:1, text: '선생님'},
-        { value:2, text: '마실꾼'},
-
-      ]
+      loadingSearch: false
 
     }
   },
@@ -127,16 +90,6 @@ export default {
     email(n,o){
       if(n !==o) this.list()
     }
-   },
-   filters:{
-     nameCheck(v){
-       if(v) return v
-       return '미기재'
-     },
-     imgCheck(v){
-        if(v) return v
-       return 'https://cdn.vuetifyjs.com/images/cards/foster.jpg'
-     }
    },
   methods: {
     async list(){
@@ -172,16 +125,7 @@ export default {
         })
   },
       500
-    ),
-    levelChange(v){
-      console.log(v)
-      this.$axios.patch(`/admin/user/${v.uid}`,{
-        level: v.level
-      })
-      .catch(e =>{
-        this.$toasted.global.error(e.message)
-      })
-    }
+    )
   }
 
 }

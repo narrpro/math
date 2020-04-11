@@ -7,9 +7,9 @@
         구글 아이디와 패스워드를 확인해보세요.
     </v-alert> -->
       <v-alert type="success" color="grey darken-3" :value="inLogin" >
-      {{this.$store.state.user? this.$store.state.user.displayName : 'Not user'}}님 환영합니다. 좋은 수업되세요..^^
+      {{this.$store.state.beforelist.user? this.$store.state.beforelist.user.displayName : 'Not user'}}님 환영합니다. 좋은 수업되세요..^^
     </v-alert>
-      <v-card v-if="!$store.state.user">
+      <v-card v-if="!$store.state.beforelist.user">
         <v-toolbar flat height="35" color="green" dark>
           <v-toolbar-title>☕Google Clound</v-toolbar-title>
         </v-toolbar>
@@ -31,7 +31,7 @@
       </v-card>
     </v-flex>
           <v-flex xs12>
-          <v-card color="transparent" flat v-if="!$store.state.firebaseLoaded">
+          <v-card color="transparent" flat v-if="!$store.state.beforelist.firebaseLoaded">
             <v-card-text>
               <v-progress-circular
                 :rotate="-90"
@@ -44,7 +44,7 @@
             <v-card-text >구글clound 처리중입니다..</v-card-text>
           </v-card>
 
-          <v-chip class="ma-2" color="green" text-color="white" v-if="$store.state.user" @click="levelUp">
+          <v-chip class="ma-2" color="green" text-color="white" v-if="$store.state.beforelist.user" @click="levelUp">
           <v-avatar left class="green darken-4"> 🌹 </v-avatar>
           교사권한 레벨업 하기..꼭 ! 한번만 눌러주세요.
              </v-chip>
@@ -58,7 +58,8 @@
 </template>
 
 <script>
-import { mapState, mapActions}  from "vuex"
+import {createNamespacedHelpers} from 'vuex'
+const {mapState, mapActions} = createNamespacedHelpers('beforelist')
 export default {
   data(){
    return {
@@ -88,15 +89,15 @@ export default {
       await this.$firebase.auth().signInWithPopup(provider)
       const user = this.$firebase.auth().currentUser
       await user.getIdToken()
-      await this.$store.dispatch('getUser',user)
-      if(this.$store.state.claims.level === undefined) return this.$router.push('/userprofile')
+      await this.$store.dispatch('beforelist/getUser',user)
+      if(this.$store.state.beforelist.claims.level === undefined) return this.$router.push('/userprofile')
       this.$router.push('/')
 
       },
       async levelUp(){
         const user = this.$firebase.auth().currentUser
         await user.getIdToken()
-        await this.$store.dispatch('getUser',user)
+        await this.$store.dispatch('beforelist/getUser',user)
       },
 // 로그아웃
       async signOut(){

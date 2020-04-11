@@ -2,8 +2,8 @@
 <v-container fill-height style="max-width:450px" grid-list-md text-center>
   <v-layout align-center row wrap >
     <v-flex xs12 >
-       {{$store.state.user? $store.state.user.displayName : 'Not user'}}
-       {{$store.state.token}}
+       {{$store.state.beforelist.user? $store.state.beforelist.user.displayName : 'Not user'}}
+       {{$store.state.beforelist.token}}
       <v-card>
         <v-toolbar flat height="40" color="green" dark>
           <v-toolbar-title>id:eve.holt@reqres.in & pw:cityslicka </v-toolbar-title>

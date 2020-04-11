@@ -20,7 +20,7 @@
                     <v-card-text>
                <v-avatar :size="80">
       <img
-        :src="$store.state.claims.picture"
+        :src="$store.state.beforelist.claims.picture"
       >
         </v-avatar>
               구글clound 처리중입니다..</v-card-text>

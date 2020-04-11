@@ -19,7 +19,9 @@
 
 <script>
 // import { EventBus } from '@/main.js'
-import { mapState, mapGetters } from 'vuex'
+import {createNamespacedHelpers} from 'vuex'
+const {mapState, mapActions, mapGetters} = createNamespacedHelpers('beforelist')
+
 //getters  별칭 만들기
   export default {
     data() {
