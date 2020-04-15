@@ -90,8 +90,15 @@
      <!-- cmp  -->
    <v-content>
       <vue-progress-bar></vue-progress-bar>
+<transition
+    name="custom-classes-transition"
+    enter-active-class="animated tada"
+    leave-active-class="animated bounceOutRight"
+>
+ <router-view :key="$route.fullPath"></router-view>
+</transition>
+<spin-bar :loading="loadingStatus"></spin-bar>
 
-           <router-view></router-view>
     </v-content>
   <!-- foot -->
       <vfooter/>
@@ -102,15 +109,20 @@
 
 import vfooter from '@/components/footer'
 import store from './store'
+import SpinBar from '@/components/VueStudy/Spinner'
+import bus from '@/utils/bus.js'
 import {createNamespacedHelpers} from 'vuex'
 const {mapState} = createNamespacedHelpers('beforelist')
+
 
 export default {
 
   name: 'App',
   components:{
-    vfooter
+    vfooter,
+    SpinBar,
   },
+
   data: ()=>({
       drawer: false,
       item: 1,
@@ -211,12 +223,27 @@ export default {
           ]
           },
         ],
+        loadingStatus: false,
     }),
+     created(){
+    bus.$on('start:spinner',this.startSpinner),
+    bus.$on('end:spinner', this.endSpinner)
+  },
+    beforeDestroy(){
+      bus.$off('start:spinner',this.startSpinner),
+      bus.$off('end:spinner', this.endSpinner)
+    },
     computed: {
       ...mapState(['inLogin','inError'])
 
     },
     methods: {
+      startSpinner(){
+        this.loadingStatus = true
+      },
+      endSpinner(){
+        this.loadingStatus = false
+      },
       // ...mapActions(['getUser']),
       signOut(){
       this.$firebase.auth().signOut()
@@ -230,3 +257,4 @@ export default {
   }
 
 </script>
+

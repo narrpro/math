@@ -2,6 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue' // 전부 다불러와서. 뿌려줌
 import store from '../store'
+import NewsView from '../views/VueStudy/NewsView.vue'
+import AskView from '../views/VueStudy/AskView.vue'
+import JobsView from '../views/VueStudy/JobsView.vue'
+import createListView from '@/views/VueStudy/CreateListView.js'
 
 Vue.use(VueRouter)
 
@@ -194,26 +198,36 @@ const routes = [{
     {
         path: '/news',
         name: 'news',
-        component: () =>
-            import ('../views/VueStudy/NewsView.vue')
+        component: createListView('NewsView')
+
     },
     {
         path: '/ask',
         name: 'ask',
-        component: () =>
-            import ('../views/VueStudy/AskView.vue')
+        component:  createListView('AskView')
     },
     {
         path: '/jobs',
         name: 'jobs',
-        component: () =>
-            import ('../views/VueStudy/JobsView.vue')
+        component:  createListView('JobsView')
     },
     {
-        path: '/userview/:id',
-        name: 'userview',
+        path: '/newsuser/:id',
+        name: 'newsuser',
         component: () =>
-            import ('../views/VueStudy/UserView.vue')
+            import ('../views/VueStudy/NewsUser.vue')
+    },
+    {
+        path: '/askuser/:id',
+        name: 'askuser',
+        component: () =>
+            import ('../views/VueStudy/AskUser.vue')
+    },
+    {
+        path: '/jobsuser/:id',
+        name: 'jobsuser',
+        component: () =>
+            import ('../views/VueStudy/JobsUser.vue')
     },
     {
         path: '*',
