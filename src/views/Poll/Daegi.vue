@@ -28,6 +28,8 @@
     mounted() {
       this.get()
     },
+    created() {
+    },
     methods: {
       async get() {
       const snapshot = await this.$firebase.firestore().collection('imsi').get()
@@ -38,6 +40,7 @@
         name, number,
           })
         })
+        this.$router.push({name: 'daegi'}).catch(err=>{})
       },
     }
   }

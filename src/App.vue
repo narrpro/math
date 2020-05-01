@@ -206,6 +206,10 @@ export default {
               to: '/poll'
             },
             {
+              title: '그래프연습',
+              to: '/polllist'
+            },
+            {
               title: '입력자대기',
               to: '/daegi'
             }

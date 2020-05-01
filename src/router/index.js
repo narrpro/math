@@ -2,10 +2,11 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
 import bus from '@/utils/bus'
-import NewsView from '../views/VueStudy/NewsView.vue'
-import AskView from '../views/VueStudy/AskView.vue'
-import JobsView from '../views/VueStudy/JobsView.vue'
+import NewsView from '@/views/VueStudy/NewsView.vue'
+import AskView from '@/views/VueStudy/AskView.vue'
+import JobsView from '@/views/VueStudy/JobsView.vue'
 import { routes } from '@/router'
+
 Vue.use(Router)
 
 const pageLogWrite = (to) => {
@@ -74,8 +75,9 @@ const router = new Router({
     },
     {
       path: '/test/lv2',
+      name: 'lv2',
       component: () => import('@/views/test/lv2.vue'),
-      beforeEnter: levelCheck(2)
+      // beforeEnter: levelCheck(2)
     },
     {
       path: '/userProfile',
@@ -172,6 +174,11 @@ const router = new Router({
     path: '/daegi',
     name: 'daegi',
     component: () => import ('@/views/Poll/Daegi.vue')
+  },
+  {
+    path: '/polllist',
+    name: 'polllist',
+    component: () => import ('@/views/Poll/PollList.vue')
   },
   {
     path: '*',

@@ -151,7 +151,7 @@ export default {
         this.number=''
         // await this.get()
       }
-        this.$router.push({name: 'daegi'}).catch(err=>{})
+        this.$router.push({name: 'lv2'}).catch(err=>{})
     },
       // async post(){
       //   const r = await this.$firebase.firestore().collection('imsi').add({

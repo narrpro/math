@@ -10,10 +10,12 @@ export default {
   props: ['propsdata'],
   mounted () {
     // var ctx = this.$refs.myChart
+
     var myChart = new Chart(this.$refs.myChart, {
         type: 'bar',
         data: {
-        labels: ['1번', '2번', '3번', '4번', '5번'],
+        labels: ['1번', '2번', '3번', '4번'],
+        // labels: ['1번', '2번', '3번', '4번', '5번'],
         datasets: this.propsdata
         },
         options: {
