@@ -1,97 +1,141 @@
 <template>
   <v-container>
-    <v-layout row wrap pt-5 text-center
-    style="max-width:400px; margin:0 auto;"
-    >
-     <v-flex xs12>
-       <v-chip
-      class="ma-2"
-      color="green"
-      text-color="white"
-    >
-    <v-avatar
-        left
-        class="green darken-4"
-      >
-        &#9997;
-      </v-avatar>
-      핀번호와 이름을 기재하고 제출버튼을 누르세요.
-    </v-chip>
-          <v-text-field
-            label="칠판화면 핀 번호를 입력하세요."
-            outlined
-            dense
-            type="number"
-            color="grey darken-2"
-          ></v-text-field>
-
-      <v-text-field
-        v-model="inName"
-        label="본인 이름을 입력하세요."
-        color="grey darken-2"
-      ></v-text-field>
-
-      <v-btn class="ma-2" tile outlined color="black"
-        @click="">
-      <!-- <v-btn class="ma-2" tile outlined color="black"
-        @click="$router.push({name: 'home'}).catch(err=>{})"> -->
-      <v-icon left>mdi-pencil</v-icon>제출</v-btn>
-
-
-      <v-col class="mb-4" align-center>
-         <v-progress-linear value="60" height="15" color="white" background-color="success"
-          :indeterminate="query"
-          :query="true"
-          v-model="value"
-          :active="show"
-        ></v-progress-linear>
+    <v-row class="text-center">
+      <v-col cols="12">
+        <v-img
+          :src="require('../assets/logo.svg')"
+          class="my-3"
+          contain
+          height="200"
+        />
       </v-col>
-    </v-flex>
-    </v-layout>
-  </v-container>
 
+      <v-col class="mb-4">
+        <h1 class="display-2 font-weight-bold mb-3">
+          Welcome to Vuetify
+        </h1>
+
+        <p class="subheading font-weight-regular">
+          For help and collaboration with other Vuetify developers,
+          <br />please join our online
+          <a href="https://community.vuetifyjs.com" target="_blank"
+            >Discord Community</a
+          >
+        </p>
+      </v-col>
+
+      <v-col class="mb-5" cols="12">
+        <h2 class="headline font-weight-bold mb-3">
+          What's next?
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(next, i) in whatsNext"
+            :key="i"
+            :href="next.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ next.text }}
+          </a>
+        </v-row>
+      </v-col>
+
+      <v-col class="mb-5" cols="12">
+        <h2 class="headline font-weight-bold mb-3">
+          Important Links
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(link, i) in importantLinks"
+            :key="i"
+            :href="link.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ link.text }}
+          </a>
+        </v-row>
+      </v-col>
+
+      <v-col class="mb-5" cols="12">
+        <h2 class="headline font-weight-bold mb-3">
+          Ecosystem
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(eco, i) in ecosystem"
+            :key="i"
+            :href="eco.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ eco.text }}
+          </a>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-  export default {
-    name: 'HelloWorld',
+export default {
+  name: "HelloWorld",
 
-    data(){
-      return{
-        inNum: null,
-        inName: null,
-        value: 0,
-        query: false,
-        show: true,
-        intervarl: 0
+  data: () => ({
+    ecosystem: [
+      {
+        text: "vuetify-loader",
+        href: "https://github.com/vuetifyjs/vuetify-loader"
+      },
+      {
+        text: "github",
+        href: "https://github.com/vuetifyjs/vuetify"
+      },
+      {
+        text: "awesome-vuetify",
+        href: "https://github.com/vuetifyjs/awesome-vuetify"
       }
-    },
-    mounted () {
-    this.queryAndIndeterminate()
-  },
-
-  beforeDestroy () {
-    clearInterval(this.interval)
-  },
-
-  methods: {
-    queryAndIndeterminate () {
-      this.query = true
-      this.show = true
-      this.value = 0
-      this.query = false
-
-      this.interval = setInterval(() => {
-        if (this.value === 100) {
-          clearInterval(this.interval)
-          this.show = false
-          return setTimeout(this.queryAndIndeterminate, 2000)
-        }
-        this.value += 2
-      }, 1000)
-    }
-  }
-}
-
-
+    ],
+    importantLinks: [
+      {
+        text: "Documentation",
+        href: "https://vuetifyjs.com"
+      },
+      {
+        text: "Chat",
+        href: "https://community.vuetifyjs.com"
+      },
+      {
+        text: "Made with Vuetify",
+        href: "https://madewithvuejs.com/vuetify"
+      },
+      {
+        text: "Twitter",
+        href: "https://twitter.com/vuetifyjs"
+      },
+      {
+        text: "Articles",
+        href: "https://medium.com/vuetify"
+      }
+    ],
+    whatsNext: [
+      {
+        text: "Explore components",
+        href: "https://vuetifyjs.com/components/api-explorer"
+      },
+      {
+        text: "Select a layout",
+        href: "https://vuetifyjs.com/layout/pre-defined"
+      },
+      {
+        text: "Frequently Asked Questions",
+        href: "https://vuetifyjs.com/getting-started/frequently-asked-questions"
+      }
+    ]
+  })
+};
 </script>

@@ -35,7 +35,7 @@
 
       <v-row align="center">
           <v-text-field class="headline"
-            v-model="message"
+            v-model="form.inName"
             color="grey darken-2"
             :rules="[rule.required]"
             :counter="5"
@@ -44,7 +44,10 @@
             required
           ></v-text-field>
       </v-row>
-           <v-btn class="ma-2" :disabled="!valid" tile outlined color="black" @click="sendMsg">
+           <!-- <v-btn class="ma-2" :disabled="!valid" tile outlined color="black" @click="$router.push({name: 'daegi'}).catch(err=>{})" exact> -->
+           <v-btn class="ma-2" :disabled="!valid" tile outlined color="black" @click="post">
+      <!-- <v-btn class="ma-2" tile outlined color="black"
+        @click="$router.push({name: 'home'}).catch(err=>{})"> -->
       <v-icon left>mdi-pencil</v-icon>제출</v-btn>
     </v-container>
   </v-form>
@@ -71,7 +74,7 @@ export default {
    components: {
       BarChart,
     },
-  name: 'Chat',
+  name: 'FirstStu',
   data () {
     return {
       chartDataSet: [
@@ -114,7 +117,6 @@ export default {
         inNumber: '',
         inName: ''
       },
-      message: '',
       rule: {
         required: v => !!v || '필수 항목입니다.'
       },
@@ -124,12 +126,9 @@ export default {
   beforeDestroy () {
     clearInterval(this.interval)
   },
-  created() {
-    // this.$socket.on('chat',(data)=>{
-    //   this.message = data.message
-    // })
-  },
   mounted () {
+    // this.get()
+
     this.interval = setInterval(() => {
       if (this.value === 100) {
         return (this.value = 0)
@@ -142,16 +141,28 @@ export default {
     refreshChart(){
       this.chartDataSet = [10, 20]
     },
-    sendMsg () {
-      this.$socket.emit('chat', {
-        message: this.message})
-
-        this.message = ''
-
-      // this.$router.push({name: 'poll'}).catch(err=>{})
+    async post () {
+      if (!this.$refs.form.validate()) { return this.$toasted.global.error('입력을 제대로 해주세요')
+      } else {
+      const r = await this.$firebase.firestore().collection('imsi').add({
+          name: this.form.inName, number: this.form.inNumber
+        })
+        this.name=''
+        this.number=''
+        // await this.get()
       }
+        this.$router.push({name: 'lv2'}).catch(err=>{})
     },
+      // async post(){
+      //   const r = await this.$firebase.firestore().collection('imsi').add({
+      //     name: this.form.inname, id: this.form.inNumber
+      //   })
+      //   this.form.inNumber=''
+      //   this.form.inname=''
 
+      //   await this.get()
+      // },
+  }
 }
 
 </script>

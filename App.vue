@@ -1,260 +1,227 @@
 <template>
-<v-app id="app">
+  <v-app>
+    <v-navigation-drawer v-model="drawer" fixed app>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title
+            class="title body-2 font-weight-bold"
+          >{{ _.get($store.state.user, 'email', '로딩중')}}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider></v-divider>
 
- <v-navigation-drawer
-      v-model="drawer"
-      app
-    >
-    <v-row justify="center">
-    <v-expansion-panels inset focusable class="elevation-2">
-      <v-expansion-panel
-        v-for="item in items"
-        :key="item.text"
-      >
-        <v-expansion-panel-header class="subtitle-2">
-            <v-list-item-icon>
-            <v-icon v-text="item.icon"></v-icon>
-          </v-list-item-icon>
-                {{item.text}}
-          </v-expansion-panel-header>
-        <v-expansion-panel-content color="blue-grey lighten-5">
-          <v-list dense>
-            <v-list-item-group >
-           <v-list-item
-              v-for="subItem in item.subItems"
-              :key="subItem.text"
-              :to="subItem.to"
-              exact
-            >
-          <v-list-item-content>
-            <v-list-item-title  class="caption font-weight-bold">{{subItem.text}}</v-list-item-title>
-          </v-list-item-content>
-          </v-list-item>
-          </v-list-item-group>
-          </v-list>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
-  </v-row>
-
-    </v-navigation-drawer>
-    <!-- top menu -->
-    <v-app-bar
-      app
-      color="green"
-      dark
-    >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="$store.state.user" /> -->
-      <v-toolbar-title v-if="$store.state.beforelist.user">
-        <v-avatar :size="30">
-      <img
-        :src="$store.state.beforelist.user.photoURL"
-      >
-        </v-avatar>
-             {{$store.state.beforelist.user.displayName}}님
-      </v-toolbar-title>
-      <v-toolbar-title v-else>mathq.kr</v-toolbar-title>
-       <v-spacer></v-spacer>
-      <div class="text-center">
-      <v-menu offset-y v-if="inLogin" >
-      <template v-slot:activator="{ on }">
-        <v-btn
-          color=""
-          dark
-          flak
-          icon
-          v-on="on"
+      <v-list nav>
+        <v-list-group
+          v-for="item in items"
+          :key="item.title"
+          v-model="item.active"
+          :prepend-icon="item.icon"
+          no-action
         >
-          <v-icon>mdi-library-plus</v-icon>
-        </v-btn>
-      </template>
-      <v-list color="grey darken-3" dark max-width="500">
-        <v-list-item router :to ="{name: 'userprofile'}" exact>
-          <v-list-item-title>{{$store.state.beforelist.user.displayName}}님 page</v-list-item-title>
-        </v-list-item>
-         <v-divider></v-divider>
-        <v-list-item @click="signOut" router :to ="{name: 'Home'}" exact>
-          <v-list-item-title>로그아웃</v-list-item-title>
-        </v-list-item>
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title"></v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item v-for="subItem in item.subItems" :key="subItem.title" :to="subItem.to">
+            <v-list-item-content>
+              <v-list-item-title v-text="subItem.title"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
       </v-list>
-    </v-menu>
-    <div class="my-2">
-      <v-btn color="green darken-3" fab x-small dark v-if="!$store.state.beforelist.user"  @click="$router.push({name: 'login'}).catch(err=>{})" exact>
-        🔑
-      </v-btn>
-       </div>
+    </v-navigation-drawer>
+    <v-app-bar color="green" dark app>
+      <v-app-bar-nav-icon @click="drawer = !drawer" v-if="$store.state.user"></v-app-bar-nav-icon>
+      <v-toolbar-title>
+        <span>{{ pkg.description }}</span>
+        <span class="caption">&nbsp;v{{ pkg.version }}</span>
+        <!-- <span class="caption" v-if="env === 'development'">&nbsp;{{ env }}</span> -->
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+
+      <div class="my-2">
+        <v-btn
+          color="green darken-3"
+          fab
+          x-small
+          dark
+          v-if="!$store.state.user"
+          @click="$router.push({name: 'sign'}).catch(err=>{})"
+          exact
+        >🔑</v-btn>
       </div>
 
+      <v-toolbar-items v-if="$store.state.user">
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn icon v-on="on">
+              <v-icon dark>mdi-content-save-all</v-icon>
+              <!-- <v-avatar
+                size="32"
+              >
+                <v-img :src="_.get($store.state.user, 'photoURL', null) ? $store.state.user.photoURL : require('@/assets/images/account-alert.png')" alt="avatar"></v-img>
+              </v-avatar>-->
+            </v-btn>
+          </template>
+          <v-card width="320">
+            <v-container fluid>
+              <v-row>
+                <v-col cols="4">
+                  <v-avatar size="77" color="indigo">
+                    <v-img
+                      :src="_.get($store.state.user, 'photoURL', null) ? $store.state.user.photoURL : require('@/assets/images/account-alert.png')"
+                      alt="avatar"
+                    ></v-img>
+                  </v-avatar>
+                </v-col>
+                <v-col cols="8">
+                  <v-card-text>
+                    <span class="font-weight-bold">{{$store.state.user.displayName}}</span>
+                    <br />
+                    <span class="font-weight-thin">{{$store.state.user.email}}</span>
+                  </v-card-text>
+                </v-col>
+              </v-row>
+            </v-container>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="success" outlined @click="$router.push('/userProfile')">회원정보</v-btn>
+              <v-btn color="success" outlined @click="signOut">로그아웃</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
+      </v-toolbar-items>
     </v-app-bar>
-     <!-- cmp  -->
-   <v-content>
-      <vue-progress-bar></vue-progress-bar>
-<transition
-    name="custom-classes-transition"
-    enter-active-class="animated tada"
-    leave-active-class="animated bounceOutRight"
->
- <router-view :key="$route.fullPath"></router-view>
-</transition>
-<spin-bar :loading="loadingStatus"></spin-bar>
 
+    <v-content>
+      <vue-progress-bar></vue-progress-bar>
+      <v-container fluid v-if="!$store.state.firebaseLoaded">
+        <v-row align="center" justify="center">
+          <v-card color="transparent" flat>
+            <v-card-text class="text-center">
+              <v-progress-circular indeterminate color="primary"></v-progress-circular>
+            </v-card-text>
+            <v-card-text class="text-center">인증 상태를 기다리는 중입니다.</v-card-text>
+          </v-card>
+        </v-row>
+      </v-container>
+      <router-view />
     </v-content>
-  <!-- foot -->
-      <vfooter/>
-</v-app>
+    <vfooter />
+  </v-app>
 </template>
 
 <script>
-
-import vfooter from '@/components/footer'
-import store from './store'
-import SpinBar from '@/components/VueStudy/Spinner'
-import bus from '@/utils/bus.js'
-import {createNamespacedHelpers} from 'vuex'
-const {mapState} = createNamespacedHelpers('beforelist')
-
+import pkg from "../package";
+import vfooter from "@/components/footer";
 
 export default {
-
-  name: 'App',
-  components:{
-    vfooter,
-    SpinBar,
+  components: {
+    vfooter
   },
-
-  data: ()=>({
+  name: "App",
+  data() {
+    return {
+      env: process.env.NODE_ENV,
+      pkg: pkg,
       drawer: false,
-      item: 1,
       items: [
         {
-          icon: 'mdi-home',
-          text: 'home ',
+          icon: "mdi-home",
+          title: "home",
           active: true,
-          subItems : [
+          subItems: [
             {
-              text: '나의 페이지',
-              to: {path: '/userprofile'},
-            },
-            {
-              text: '사용자보기',
-              to: {path: '/users'},
-            },
-            {
-              text: '로그인페이지',
-              to: {path: '/login'},
-            },
-            {
-              text: 'test페이지',
-              to: {path: '/test'},
-            },
+              title: "Dashboard",
+              to: "/"
+            }
           ]
-          },
+        },
         {
-          icon: 'mdi-chart-line',
-          text: 'firebase 사용자 ',
+          icon: "mdi-alert-box",
+          title: "test",
           active: false,
-          subItems : [
+          subItems: [
             {
-              text: '구글DB연습',
-              to: {path: '/CardDB'},
+              title: "구글DB연습",
+              to: "/CardDB"
             },
             {
-              text: '사용자관리',
-              to: {path: '/admin/users'},
+              title: "0x문제",
+              to: "/test/lv0"
             },
             {
-              text: 'loading 연습',
-              to: {path: '/Mother'},
+              title: "4지선다형",
+              to: "/test/lv1"
             },
+            {
+              title: "5지선다형",
+              to: "/test/lv2"
+            }
           ]
-          },
+        },
         {
-          icon: 'mdi-owl',
-          text: 'API 연습',
+          icon: "mdi-account-key",
+          title: "Admin",
           active: false,
-          subItems : [
+          subItems: [
             {
-              text: 'API1 연습',
-              to: {path: '/Api-test'},
-            },
-            {
-              text: 'API2 연습',
-              to: {path: '/chart'},
-            },
+              title: "회원 관리",
+              to: "/admin/users"
+            }
           ]
-          },
-          {
-          icon: 'mdi-swap-vertical',
-          text: '사용자등급 ',
+        },
+        {
+          icon: "mdi-filmstrip",
+          title: "API 연습 ",
           active: false,
-          subItems : [
+          subItems: [
             {
-              text: 'Admin 연습',
-              to: {path: '/Level0'},
+              title: "News",
+              to: "/news"
             },
             {
-              text: 'User 연습',
-              to: {path: '/Level1'},
+              title: "Ask",
+              to: "/ask"
             },
             {
-              text: 'Guest 연습',
-              to: {path: '/Level2'},
+              title: "Jobs",
+              to: "/jobs"
             },
+            {
+              title: "socket.io",
+              to: "/poll"
+            },
+            {
+              title: "그래프연습",
+              to: "/test/lv2"
+            },
+            {
+              title: "입력자대기",
+              to: "/poll"
+            }
           ]
-          },
-          {
-          icon: 'mdi-filmstrip',
-          text: 'News 연습 ',
-          active: false,
-          subItems : [
-            {
-              text: 'News',
-              to: {path: '/news'},
-            },
-            {
-              text: 'Ask',
-              to: {path: '/ask'},
-            },
-            {
-              text: 'Jobs',
-              to: {path: '/jobs'},
-            },
-          ]
-          },
-        ],
-        loadingStatus: false,
-    }),
-     created(){
-    bus.$on('start:spinner',this.startSpinner),
-    bus.$on('end:spinner', this.endSpinner)
+        }
+        // en
+      ]
+    };
   },
-    beforeDestroy(){
-      bus.$off('start:spinner',this.startSpinner),
-      bus.$off('end:spinner', this.endSpinner)
-    },
-    computed: {
-      ...mapState(['inLogin','inError'])
-
-    },
-    methods: {
-      startSpinner(){
-        this.loadingStatus = true
-      },
-      endSpinner(){
-        this.loadingStatus = false
-      },
-      // ...mapActions(['getUser']),
-      signOut(){
-      this.$firebase.auth().signOut()
-      this.$store.commit('beforelist/errAction')
-      // this.$Progress.start()
-      // this.$Progress.increase(30)
-      this.$router.push('/')
-      }
-    },
-
+  "$store.state.user"(n) {
+    if (!n) this.drawer = false;
+  },
+  methods: {
+    async signOut() {
+      this.$firebase.auth().signOut();
+      this.$router.push("/").catch(err => {});
+    }
   }
-
+};
 </script>
-
+<style scoped>
+#app {
+  font-family: "Nanum Gothic", Arial, sans-serif; /* this was it */
+}
+</style>

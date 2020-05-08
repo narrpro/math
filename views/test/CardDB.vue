@@ -61,8 +61,8 @@
 
               <v-list dense>
                 <v-list-item>
-                  <v-list-item-content>Key:</v-list-item-content>
-                  <v-list-item-content class="align-end">{{ item.name }}</v-list-item-content>
+                  <v-list-item-content>연구:</v-list-item-content>
+                  <v-list-item-content class="align-end">{{ item.content }}</v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
@@ -184,6 +184,9 @@
     },
     mounted() {
       this.get()
+
+
+
     },
     methods: {
        nextPage () {
@@ -196,9 +199,6 @@
         this.itemsPerPage = number
       },
       async post(){
-      //   this.items.push({
-      //   name: this.name, content: this.content, addr: this.addr
-      // })
         const r = await this.$firebase.firestore().collection('notes').add({
           name: this.name, content: this.content, addr: this.addr
         })
