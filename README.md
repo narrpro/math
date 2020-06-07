@@ -93,17 +93,7 @@ Activation of storage
 firebaseConfig file make
 
 **./firebaseConfig.js**  
-```javascript
-export default {
-  apiKey: 'AIzaSyBLUOZIpmKBO9ImYk_FrFa1IHr6u_VygOM',
-  authDomain: 'new-project-f36b8.firebaseapp.com',
-  databaseURL: 'https://new-project-f36b8.firebaseio.com',
-  projectId: 'new-project-f36b8',
-  storageBucket: 'new-project-f36b8.appspot.com',
-  messagingSenderId: '556943987787',
-  appId: '1:556943987787:web:76773c1159b3cac930a9ce'
-}
-```
+
 
 #### make key
 
