@@ -88,8 +88,10 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="success" outlined @click="$router.push('/userProfile')">회원정보</v-btn>
-              <v-btn color="success" outlined @click="signOut">로그아웃</v-btn>
+              <!-- <v-btn small color="success" outlined @click="$router.push('/teacherremote').catch(err => {})">리모콘</v-btn> -->
+              <v-btn small color="success" outlined @click="$router.push('/teacher').catch(err => {})">핀번호생성</v-btn>
+              <v-btn small color="success" outlined @click="$router.push('/userProfile')">회원정보</v-btn>
+              <v-btn small color="success" outlined @click="signOut">로그아웃</v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -135,14 +137,14 @@ export default {
           active: true,
           subItems: [
             {
-              title: "Dashboard",
+              title: "시작하기",
               to: "/"
             }
           ]
         },
         {
-          icon: "mdi-alert-box",
-          title: "test",
+          icon: "cast_connected",
+          title: "실시간풀이",
           active: false,
           subItems: [
             {
@@ -164,7 +166,7 @@ export default {
           ]
         },
         {
-          icon: "mdi-account-key",
+          icon: "group_add",
           title: "Admin",
           active: false,
           subItems: [
@@ -175,8 +177,8 @@ export default {
           ]
         },
         {
-          icon: "mdi-filmstrip",
-          title: "API 연습 ",
+          icon: "tap_and_play",
+          title: "실시간 관리 ",
           active: false,
           subItems: [
             {
@@ -196,13 +198,17 @@ export default {
               to: "/poll"
             },
             {
-              title: "그래프연습",
-              to: "/test/lv2"
+              title: "실시간공유",
+              to: "/p5test"
             },
             {
-              title: "입력자대기",
-              to: "/poll"
-            }
+              title: "서술형풀기",
+              to: "/draw"
+            },
+            {
+              title: "DB 이미지공유",
+              to: "/imageDB"
+            },
           ]
         }
         // en

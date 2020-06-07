@@ -1,38 +1,39 @@
 <template>
   <div>
     <v-container fluid>
-        <v-row justify="center">
-    <div id="chart-container1"></div>
-        </v-row>
-      </v-container>
-    <div>
-      <v-container fluid>
-        <v-row justify="center">
-          <!-- <button id="dispose">chart memory remove</button> -->
-        </v-row>
-      </v-container>
-    </div>
+      <v-row justify="center">
+        <v-col cols="12" class="text-center">
+          <div id="chart-container1"></div>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
+import Vue from "vue";
+import * as VueFusionCharts from "vue-fusioncharts";
+import * as FusionCharts from "fusioncharts";
+import * as Charts from "fusioncharts/fusioncharts.charts";
+import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import './fusioncharts.excelexport';
 
-
+Vue.use(VueFusionCharts, FusionCharts, Charts, FusionTheme);
 
 export default {
   data() {
     return {};
   },
   methods: {
-
   },
   mounted() {
     var choiceOne = 0,
-      choiceTwo = 0,
-      choiceThree = 0,
-      choiceFour = 0,
-      choiceFive = 0;
-      this.$socket.on('test3', (data) => {
+        choiceTwo = 0,
+        choiceThree = 0,
+        choiceFour = 0,
+        choiceFive = 0;
+
+    this.$socket.on('test3', (data)=> {
       switch (data.choice) {
         case "1":
           choiceOne++;
@@ -115,8 +116,8 @@ export default {
       //추가
       id: "votechart1",
       renderAt: "chart-container1",
-      width: "70%",
-      height: "310",
+      width: "90%",
+      height: "90%",
       dataFormat: "json",
       dataSource: {
         // Chart Configuration

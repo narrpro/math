@@ -1,7 +1,7 @@
 <template>
  <v-container fluid mt-5>
     <v-row justify="center">
-      <v-col cols="auto" v-for="name in names" :key="name.index">
+      <v-col cols="auto" v-for="(name,index) in names" :key="index">
           <v-chip
             class="align-center tt body-2"
             color="green"
@@ -13,7 +13,7 @@
             <v-avatar left>
               <v-icon>mdi-account-circle</v-icon>
             </v-avatar>
-           {{name.message}}
+           {{name}}
           </v-chip>
       </v-col>
     </v-row>
@@ -54,8 +54,10 @@
     },
     created() {
      this.$socket.on('chat',(data) => {
-      this.name = data
-      this.names.push(this.name)
+       console.log(data);
+
+      // this.name = data.message
+      this.names.push(data.name)
        })
     },
 

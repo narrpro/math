@@ -2,14 +2,23 @@
   <div>
       <v-container fluid>
         <v-row justify="center">
-    <div id="chart-container3"></div>
+          <v-col cols="12" class="text-center">
+            <div id="chart-container3"></div>
+          </v-col>
         </v-row>
       </v-container>
     </div>
 </template>
 
 <script>
+import Vue from "vue";
+import * as VueFusionCharts from "vue-fusioncharts";
+import * as FusionCharts from "fusioncharts";
+import * as Charts from "fusioncharts/fusioncharts.charts";
+import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import './fusioncharts.excelexport'
 
+Vue.use(VueFusionCharts, FusionCharts, Charts, FusionTheme);
 
 export default {
   data() {
@@ -69,8 +78,8 @@ export default {
       //추가
       id: 'votechart3',
       renderAt: 'chart-container3',
-      width: '70%',
-      height: '310',
+      width: '90%',
+      height: '90%',
       dataFormat: 'json',
       dataSource: {
         // Chart Configuration

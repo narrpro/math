@@ -46,7 +46,7 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/Home.vue')
+      component: () => import('@/views/Home.vue'),
       // beforeEnter: levelCheck(1)
     },
     {
@@ -59,25 +59,43 @@ const router = new Router({
       }
     },
     {
+      path: '/teacher',
+      name: 'teacher',
+      component: () => import('@/views/TeacherView.vue'),
+      beforeEnter: levelCheck(1)
+    },
+    {
+      path: '/teacherremote',
+      name: 'teacherremote',
+      component: () => import('@/views/TeacherControl.vue'),
+      beforeEnter: levelCheck(1)
+    },
+    {
+      path: '/teacherone',
+      name: 'teacherone',
+      component: () => import('@/components/test/TeacherOneflow.vue'),
+      // beforeEnter: levelCheck(1)
+    },
+    {
       path: '/admin/users',
-      component: () => import('@/views/admin/users'),
+      component: () => import('@/views/admin/users.vue'),
       beforeEnter: levelCheck(0)
     },
     {
       path: '/test/lv0',
       component: () => import('@/views/test/lv0.vue'),
-      beforeEnter: levelCheck(0)
+      // beforeEnter: levelCheck(1)
     },
     {
       path: '/test/lv1',
       component: () => import('@/views/test/lv1.vue'),
-      beforeEnter: levelCheck(1)
+      // beforeEnter: levelCheck(1)
     },
     {
       path: '/test/lv2',
       name: 'lv2',
       component: () => import('@/views/test/lv2.vue'),
-      // beforeEnter: levelCheck(2)
+      // beforeEnter: levelCheck(1)
     },
     {
       path: '/userProfile',
@@ -92,26 +110,22 @@ const router = new Router({
       path: '/CardDB',
       name: 'carddb',
       beforeEnter: levelCheck(1),
-      component: () =>
-          import ('@/views/test/CardDB.vue')
+      component: () => import ('@/views/test/CardDB.vue')
   },
     {
       path: '/newsuser/:id',
       name: 'newsuser',
-      component: () =>
-          import ('@/views/VueStudy/NewsUser.vue')
+      component: () => import ('@/views/VueStudy/NewsUser.vue')
   },
   {
       path: '/askuser/:id',
       name: 'askuser',
-      component: () =>
-          import ('@/views/VueStudy/AskUser.vue')
+      component: () => import ('@/views/VueStudy/AskUser.vue')
   },
   {
       path: '/jobsuser/:id',
       name: 'jobsuser',
-      component: () =>
-          import ('@/views/VueStudy/JobsUser.vue')
+      component: () => import ('@/views/VueStudy/JobsUser.vue')
   },
   {
     path: '/news',
@@ -173,12 +187,28 @@ const router = new Router({
   {
     path: '/daegi',
     name: 'daegi',
-    component: () => import ('@/views/Poll/Daegi.vue')
+    component: () => import ('@/components/common/DaeGi.vue')
   },
   {
-    path: '/polllist',
-    name: 'polllist',
-    component: () => import ('@/views/Poll/PollList.vue')
+    path: '/draw',
+    name: 'draw',
+    component: () => import ('@/views/Poll/MathDraw.vue')
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import ('@/views/test/test.vue')
+  },
+  {
+    path: '/p5test',
+    name: 'p5test',
+    component: () => import ('@/components/DrawCmp/PjCanvas.vue')
+  },
+  {
+    path: '/imageDB',
+    name: 'imageDB',
+    component: () => import ('@/views/ImageView.vue'),
+    // beforeEnter: levelCheck(1)
   },
   {
     path: '*',

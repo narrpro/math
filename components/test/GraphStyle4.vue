@@ -16,46 +16,23 @@
 </template>
 
 <script>
-import Vue from "vue";
-import * as VueFusionCharts from "vue-fusioncharts";
-import * as FusionCharts from "fusioncharts";
-import * as Charts from "fusioncharts/fusioncharts.charts";
-import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
-import './fusioncharts.excelexport'
 
-Vue.use(VueFusionCharts, FusionCharts, Charts, FusionTheme);
-
-import * as Ably from "ably";
-const realtime = new Ably.Realtime({ key: "E8t1hw.hiw4QQ:iD5BitLXOlaSqcJL" });
 
 export default {
   data() {
     return {};
   },
   methods: {
-    closee() {
-      this.$router.go();
-      // this.$forceUpdate();
-      // if (this.fusioncharts !== undefined) {
-      //   this.fusioncharts.dispose();
-      //   console.log("here", this);
-      // }
-    }
   },
   mounted() {
-        // const themejs = document.createElement("script");
-        // themejs.setAttribute ("src", "https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.excelexport.js");
-        // document.head.appendChild (themejs);
-
     var choiceOne = 0;
     var choiceTwo = 0;
     var choiceThree = 0;
     var choiceFour = 0;
     //   choiceFive = 0;
-    const myVotingChannel = realtime.channels.get("voting-channel2");
-    myVotingChannel.subscribe("vote2", msg => {
+    this.$socket.on('test2', (data) => {
       // console.log('msg.data',msg.data);
-      switch (msg.data) {
+      switch (data.choice) {
         case "1":
           choiceOne++;
           break;

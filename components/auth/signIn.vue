@@ -43,6 +43,7 @@
           v-model="form.email"
           :rules="[rule.required, rule.minLength(7), rule.maxLength(50), rule.email]"
           required
+           autocomplete="username"
           ></v-text-field>
         <v-text-field
           label="비밀번호"
@@ -50,6 +51,7 @@
           :rules="[rule.required, rule.minLength(6), rule.maxLength(50)]"
           type="password"
           required
+          autocomplete="current-password"
           ></v-text-field>
         <div class="recaptcha-terms-text">이 페이지는 reCAPTCHA로 보호되며, Google 개인정보처리방침 및 서비스 약관의 적용을 받습니다.</div>
       </v-card-text>
@@ -125,6 +127,7 @@ export default {
 </script>
 <style scoped>
 .recaptcha-terms-text {
+    font-family: "Nanum Gothic", Arial, sans-serif;
     font-size: 12px;
     font-weight: 200;
     color: #637282

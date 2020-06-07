@@ -8,11 +8,10 @@
             <v-item :active1="active1">
               <!-- <v-item v-slot:default="{ active, toggle }"> -->
               <v-card
-                height="60px"
+                height="170px"
                 :color="active1 ? 'yellow darken-4' : 'green'"
                 class="d-flex align-center"
                 dark
-                v-bind:disabled="ss"
                 @click="castingVote('1')"
               >
                 <div v-if="!active1" class="display-1 flex-grow-1 text-center">1번</div>
@@ -23,11 +22,10 @@
           <v-col md="4">
             <v-item :active2="active2">
               <v-card
-                height="60px"
+                height="170px"
                 :color="active2 ? 'yellow darken-4' : 'green'"
                 class="d-flex align-center"
                 dark
-                v-bind:disabled="ss"
                 @click="castingVote('2')"
               >
                 <div v-if="!active2" class="display-1 flex-grow-1 text-center">2번</div>
@@ -41,11 +39,10 @@
           <v-col md="4">
             <v-item :active3="active3">
               <v-card
-                height="60px"
+                height="170px"
                 :color="active3 ? 'yellow darken-4' : 'green'"
                 class="d-flex align-center"
                 dark
-                v-bind:disabled="ss"
                 @click="castingVote('3')"
               >
                 <div v-if="!active3" class="display-1 flex-grow-1 text-center">3번</div>
@@ -56,11 +53,10 @@
           <v-col md="4">
             <v-item :active4="active4">
               <v-card
-                height="60px"
+                height="170px"
                 :color="active4 ? 'yellow darken-4' : 'green'"
                 class="d-flex align-center"
                 dark
-                v-bind:disabled="ss"
                 @click="castingVote('4')"
               >
                 <div v-if="!active4" class="display-1 flex-grow-1 text-center">4번</div>
@@ -74,11 +70,10 @@
           <v-col md="4">
             <v-item :active5="active5">
               <v-card
-                height="60px"
+                height="170px"
                 :color="active5 ? 'yellow darken-4' : 'green'"
                 class="d-flex align-center"
                 dark
-                v-bind:disabled="ss"
                 @click="castingVote('5')"
               >
                 <div v-if="!active5" class="display-1 flex-grow-1 text-center">5번</div>
@@ -95,6 +90,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -103,8 +99,7 @@ export default {
       active2: false,
       active3: false,
       active4: false,
-      active5: false,
-      ss: false
+      active5: false
     };
   },
   methods: {
@@ -117,7 +112,6 @@ export default {
             this.active3 = false;
             this.active4 = false;
             this.active5 = false;
-            this.ss = true;
           }
           break;
         case "2":
@@ -128,7 +122,6 @@ export default {
               this.active3 = false;
               this.active4 = false;
               this.active5 = false;
-              this.ss = true;
             }
           }
           break;
@@ -140,7 +133,6 @@ export default {
               this.active3 = true;
               this.active4 = false;
               this.active5 = false;
-              this.ss = true;
             }
           }
           break;
@@ -152,7 +144,6 @@ export default {
               this.active3 = false;
               this.active4 = true;
               this.active5 = false;
-              this.ss = true;
             }
           }
           break;
@@ -164,7 +155,6 @@ export default {
               this.active3 = false;
               this.active4 = false;
               this.active5 = true;
-              this.ss = true;
             }
           }
           break;
@@ -172,8 +162,8 @@ export default {
           console.log(err);
           break;
       }
-     this.$socket.emit('test3',{
-        choice: choice, room: sessionStorage.getItem('room')
+       this.$socket.emit('test3',{
+        choice: choice,  room: sessionStorage.getItem('room')
       })
       this.choice = ''
     }

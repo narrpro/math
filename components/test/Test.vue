@@ -1,84 +1,93 @@
 <template>
-  <div id="tt">
-   <form id="vote-form">
-      <p>
-        <label>
-            <input type="radio" name="os" id="windows" value="Windows">
-            <span for="windows">Windows</span>
-        </label>
-      <p>
-        <label>
-            <input type="radio" name="os" id="macos" value="MacOS">
-            <span for="macos">MacOS</span>
-        </label>
-      <p>
-        <label>
-            <input type="radio" name="os" id="linux" value="Linux">
-            <span for="linux">Linux Distro</span>
-        </label>
-      </p>
-      <p>
-        <label>
-            <input type="radio" name="os" id="other" value="Other">
-            <span for="other">Something else</span>
-        </label>
-      </p>
-      <input type="submit" value="Vote" class="btn">
-    </form>
-
-    <br>
-    <br>
+  <div>
+      <v-container fluid>
+        <v-row justify="center">
+            <v-btn class="ma-2" tile outlined color="black" @click.prevent="reset">
+              <v-icon left>delete_forever</v-icon>
+              Clear</v-btn>
+            <v-btn id="download-to-svg" class="ma-2" tile outlined color="black" @click.prevent="pngsave">
+              <v-icon left>save</v-icon>
+              Save</v-btn>
+        </v-row>
+      </v-container>
+    <canvas :id ="canvasId2" class="canvas-style" v-on:mousedown="mouseDown"></canvas>
   </div>
 </template>
+
 <script>
-import axios from 'axios'
-import * as Pusher from 'pusher'
+import paper from 'paper'
   export default {
-    data() {
-      return {
-        messages: []
-      }
-    },
-    created() {
-      let recaptchaScript = document.createElement('script')
-      recaptchaScript.setAttribute('src', 'https://js.pusher.com/5.1/pusher.min.js')
-      document.head.appendChild(recaptchaScript)
-    },
-    mounted() {
+    name: "Canvas",
+        props: ['canvasId2'],
+        data: () => ({
+            path: null,
+            scope: null
+        }),
+        created () {
+            this.$socket.disconnect();
+        },
+        methods: {
+            reset() {
+                this.scope.project.activeLayer.removeChildren();
+            },
+            pngsave() {
 
-    const form = document.getElementById('vote-form');
-    var event;
+              var fileName = "test.svg"
+              var url = "data:image/svg+xml;utf8," + encodeURIComponent(this.scope.project.exportSVG({asString:true}));
+              var link = document.createElement("a");
+              link.download = fileName;
+              link.href = url;
+              link.click();
+              },
 
-    form.addEventListener('submit', e=>{
-
-    const choice = document.querySelector('input[name=os]:checked').value;
-    const data = {os: choice};
-
-      axios('http://localhost:3000/vote',{
-        method: 'post',
-        body: JSON.stringify(data),
-        headers: new Headers({
-            'Content-Type': 'application/json'
-         })
-         .then( res => res.json())
-         .catch(err => console.log(err))
-      })
-          e.preventDefault();
-    //    Pusher.logToConsole = true
-    //   var pusher = new Pusher('9bb3eace331b9e1a7559', {
-    //   cluster: 'ap3',
-    //   forceTLS: true
-    //    });
-    // var channel = pusher.subscribe('mathtest');
-    // channel.bind('my-event', function(data) {
-    //   tt.messages.push(JSON.stringify(data));
-    // });
-
-    })
-    }
+            pathCreate(scope) {
+                scope.activate();
+                return new paper.Path({
+                    strokeColor: "#000000",
+                    strokeJoin: 'round',
+                    strokeWidth: 2
+                })
+            },
+            createTool(scope) {
+                scope.activate();
+                return new paper.Tool();
+            },
+            mouseDown() {
+                // in order to access functions in nested tool
+                let self = this;
+                // create drawing tool
+                this.tool = this.createTool(this.scope);
+                this.tool.onMouseDown = (event) => {
+                    // init path
+                    self.path = self.pathCreate(self.scope);
+                    // add point to path
+                    self.path.add(event.point);
+                };
+                this.tool.onMouseDrag = (event) => {
+                    self.path.add(event);
+                };
+                this.tool.onMouseUp = (event) => {
+                    // line completed
+                    self.path.add(event.point);
+                }
+            }
+        },
+        mounted() {
+            this.scope = new paper.PaperScope();
+            this.scope.setup(this.canvasId);
+        }
   }
 </script>
 
 <style scoped>
-
+ .canvas-style {
+        cursor: help;
+        width: 360px;
+        height: 500px;
+        border: 1px solid green;
+        border-radius: 3px;
+        display: block;
+        margin: auto;
+        box-shadow: 0 5px 4px -4px black;
+ }
 </style>

@@ -12,6 +12,7 @@
                 :color="active1 ? 'yellow darken-4' : 'green'"
                 class="d-flex align-center"
                 dark
+                v-bind:disabled="ss"
                 @click="castingVote('1')"
               >
                 <div v-if="!active1" class="display-1 flex-grow-1 text-center">1번</div>
@@ -26,6 +27,7 @@
                 :color="active2 ? 'yellow darken-4' : 'green'"
                 class="d-flex align-center"
                 dark
+                v-bind:disabled="ss"
                 @click="castingVote('2')"
               >
                 <div v-if="!active2" class="display-1 flex-grow-1 text-center">2번</div>
@@ -43,6 +45,7 @@
                 :color="active3 ? 'yellow darken-4' : 'green'"
                 class="d-flex align-center"
                 dark
+                v-bind:disabled="ss"
                 @click="castingVote('3')"
               >
                 <div v-if="!active3" class="display-1 flex-grow-1 text-center">3번</div>
@@ -57,6 +60,7 @@
                 :color="active4 ? 'yellow darken-4' : 'green'"
                 class="d-flex align-center"
                 dark
+                v-bind:disabled="ss"
                 @click="castingVote('4')"
               >
                 <div v-if="!active4" class="display-1 flex-grow-1 text-center">4번</div>
@@ -71,9 +75,6 @@
 </template>
 
 <script>
-import * as Ably from "ably";
-
-const realtime = new Ably.Realtime({ key: "E8t1hw.hiw4QQ:iD5BitLXOlaSqcJL" });
 export default {
   data() {
     return {
@@ -81,7 +82,8 @@ export default {
       active1: false,
       active2: false,
       active3: false,
-      active4: false
+      active4: false,
+      ss: false
     };
   },
   methods: {
@@ -93,6 +95,7 @@ export default {
             this.active2 = false;
             this.active3 = false;
             this.active4 = false;
+            this.ss = true;
           }
           break;
         case "2":
@@ -102,6 +105,7 @@ export default {
               this.active2 = true;
               this.active3 = false;
               this.active4 = false;
+              this.ss = true;
             }
           }
           break;
@@ -112,6 +116,7 @@ export default {
               this.active2 = false;
               this.active3 = true;
               this.active4 = false;
+              this.ss = true;
             }
           }
           break;
@@ -122,6 +127,7 @@ export default {
               this.active2 = false;
               this.active3 = false;
               this.active4 = true;
+              this.ss = true;
             }
           }
           break;
@@ -129,10 +135,10 @@ export default {
           console.log(err);
           break;
       }
-      const myVotingChannel = realtime.channels.get("voting-channel2");
-      myVotingChannel.publish("vote2", choice, err => {
-        console.log(err);
-      });
+      this.$socket.emit('test2',{
+        choice: choice,  room: sessionStorage.getItem('room')
+      })
+      this.choice = ''
     }
   }
 };
